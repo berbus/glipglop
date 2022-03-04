@@ -2,7 +2,7 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 
-import { Loading } from '../Common';
+import { Loading, DetailsHeader } from '../Common';
 import { 
     getServiceDetails,
     clearServiceDetails,
@@ -37,9 +37,9 @@ class ServiceDetails extends React.Component {
                 {!this.state.loaded
                     ? <Loading />
                     : <>
+                        <DetailsHeader title={this.props.serviceName} />
                         <div className="row my-3">
                             <div className="col-6">
-                                <h2>{this.props.serviceName}</h2>
                                 <p>{this.props.serviceCreationDate}</p>
                                 <p>{this.props.serviceStatus}</p>
                             </div>

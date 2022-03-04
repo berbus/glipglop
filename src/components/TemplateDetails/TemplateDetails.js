@@ -7,6 +7,7 @@ import { Form } from 'react-bootstrap/'
 
 import { getTemplateDetails, clearTemplateDetails, updateTemplateDetails } from '../../actions/templateDetails';
 import { getRequirements } from '../../actions/requirement';
+import { Loading, DetailsHeader } from '../Common';
 import Requirement from './Requirement';
 
 
@@ -126,85 +127,80 @@ class TemplateDetails extends React.Component {
         return (
             <>
                 {this.state.updatingTemplate
-                    ? <p> Loading... </p>
+                    ? <Loading />
                     : <>
-                        <div className="row my-3">
-                            <div className="col-6">
-                                <h2>{this.props.templateName}</h2>
-                            </div>
-                            <div className="col-6">
-                                <form className="row">
-                                    <div className="col">
-                                        <div className="form-check form-switch">
-                                            <input 
-                                                className="form-check-input"
-                                                type="checkbox"
-                                                id="selectedOnlyCheckbox" 
-                                                name="selectedOnly" 
-                                                checked={this.state.filter.selectedOnly} 
-                                                onChange={this.handleFilterChange}
-                                            />
-                                            <label className="form-check-label">Only show selected items</label>
-                                        </div>
-                                        <div className="form-check form-switch">
-                                            <input 
-                                                className="form-check-input" 
-                                                type="checkbox" 
-                                                id="unselectedOnlyCheckbox" 
-                                                name="unselectedOnly" 
-                                                checked={this.state.filter.unselectedOnly} 
-                                                onChange={this.handleFilterChange}
-                                            />
-                                            <label className="form-check-label">Only show unselected items</label>
-                                        </div>
+                        <DetailsHeader title={this.props.templateName}>
+                            <form className="row">
+                                <div className="col">
+                                    <div className="form-check form-switch">
+                                        <input 
+                                            className="form-check-input"
+                                            type="checkbox"
+                                            id="selectedOnlyCheckbox" 
+                                            name="selectedOnly" 
+                                            checked={this.state.filter.selectedOnly} 
+                                            onChange={this.handleFilterChange}
+                                        />
+                                        <label className="form-check-label">Only show selected items</label>
                                     </div>
-                                </form>
-                                <div className="row my-2">
-                                    <div className="col-3">
-                                        <p>OWASP Level: {this.state.filter.owasp_level}</p>
-                                    </div>
-                                    <div className="col-7">
-                                        <Form>
-                                            <Form.Range
-                                                name="slider_owasp_level" 
-                                                min={1}
-                                                max={3}
-                                                value={this.state.filter.owasp_level} 
-                                                onChange={this.handleFilterChange} 
-                                            />
-                                        </Form>
+                                    <div className="form-check form-switch">
+                                        <input 
+                                            className="form-check-input" 
+                                            type="checkbox" 
+                                            id="unselectedOnlyCheckbox" 
+                                            name="unselectedOnly" 
+                                            checked={this.state.filter.unselectedOnly} 
+                                            onChange={this.handleFilterChange}
+                                        />
+                                        <label className="form-check-label">Only show unselected items</label>
                                     </div>
                                 </div>
-                                <form className="row">
-                                    <div className="col-10">
-                                        <div className="input-group">
-                                            <input 
-                                                className="form-control" 
-                                                type="text" 
-                                                id="searchText" 
-                                                name="searchTextInput" 
-                                                value={this.state.filter.searchText}
-                                                onChange={this.handleFilterChange}
-                                            />
-                                            <div className="input-group-prepend">
-                                                <span className="input-group-text" id="basic-addon1">
-                                                    <IconContext.Provider value={{ size: "1.5em" }}>
-                                                        <FaSearch />
-                                                    </IconContext.Provider>
-                                                </span>
-                                            </div>
+                            </form>
+                            <div className="row my-2">
+                                <div className="col-3">
+                                    <p>OWASP Level: {this.state.filter.owasp_level}</p>
+                                </div>
+                                <div className="col-7">
+                                    <Form>
+                                        <Form.Range
+                                            name="slider_owasp_level" 
+                                            min={1}
+                                            max={3}
+                                            value={this.state.filter.owasp_level} 
+                                            onChange={this.handleFilterChange} 
+                                        />
+                                    </Form>
+                                </div>
+                            </div>
+                            <form className="row">
+                                <div className="col-10">
+                                    <div className="input-group">
+                                        <input 
+                                            className="form-control" 
+                                            type="text" 
+                                            id="searchText" 
+                                            name="searchTextInput" 
+                                            value={this.state.filter.searchText}
+                                            onChange={this.handleFilterChange}
+                                        />
+                                        <div className="input-group-prepend">
+                                            <span className="input-group-text" id="basic-addon1">
+                                                <IconContext.Provider value={{ size: "1.5em" }}>
+                                                    <FaSearch />
+                                                </IconContext.Provider>
+                                            </span>
                                         </div>
                                     </div>
-                                </form>
+                                </div>
+                            </form>
+                            <div className="row p-4">
+                                <div className="col">
+                                    <button className="btn btn-primary me-2" onClick={this.doUpdateTemplate}>Update template</button>
+                                    <button type="button" className="btn btn-primary" onClick={this.clearFilter}>Clear filter</button>
+                                </div>
                             </div>
-                        </div>
-                        <div className="row">
-                            <div className="col"></div>
-                            <div className="col">
-                                <button className="btn btn-primary me-2" onClick={this.doUpdateTemplate}>Update template</button>
-                                <button type="button" className="btn btn-primary" onClick={this.clearFilter}>Clear filter</button>
-                            </div>
-                        </div>
+                        </DetailsHeader>
+
                         <div className="row my-3">
                             {!this.props.requirementsListLoaded 
                                 ? <p>Loading template requirements...</p>

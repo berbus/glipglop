@@ -7,7 +7,7 @@ import { getExerciseDetails, clearExerciseDetails, completeExercise } from '../.
 import { getFindingsForExercise, clearFindings } from '../../actions/finding';
 import Finding from "./Finding";
 import TestCaseList from "./TestCaseList";
-import { Loading } from '../Common';
+import { Loading, DetailsHeader } from '../Common';
 
 
 class ExerciseDetails extends React.Component {
@@ -51,11 +51,7 @@ class ExerciseDetails extends React.Component {
                 {!this.state.loaded
                     ? <Loading />
                     : <>
-                        <div className="bg-light px-5 py-2 rounded">
-                            <div className="row my-3">
-                                <h1>{this.props.exerciseTitle}</h1>
-                            </div>
-
+                        <DetailsHeader title={this.props.exerciseTitle}>
                             <div className="row">
                                 <div className="col-4">
                                     <p>Creation date: <span className="fw-bold">{this.props.exerciseCreationDate}</span></p>
@@ -80,7 +76,7 @@ class ExerciseDetails extends React.Component {
                                     }
                                 </div>
                             </div>
-                        </div>
+                        </DetailsHeader>
 
                         <div className="row mt-5">
                             <h2>Findings</h2>
