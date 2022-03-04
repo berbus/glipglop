@@ -8,6 +8,3 @@ export class Loading extends React.Component {
             <div className="spinner-border" role="status"></div>
         )}
 }
-
-
-// export default Loading;
