@@ -13,7 +13,7 @@ import {
 
 export const getExerciseDetails = (exerciseId) => (dispatch, getState) => {
     axios
-        .get(`/api/exercise/${exerciseId}/?readable=1`, HTTP_CONF)
+        .get(`/api/exercise/${exerciseId}`, HTTP_CONF)
         .then((res) => {
             dispatch({
                 type: GET_EXERCISE_DETAILS,

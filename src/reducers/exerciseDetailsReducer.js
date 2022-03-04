@@ -11,6 +11,7 @@ const initialExerciseDetails = {
     creation_date: null,
     template: null,
     serviceName: null,
+    templateName: null,
     service: null,
     testCases: [],
     loaded: false,
@@ -32,6 +33,7 @@ export default function ExerciseDetailsReducer (state = initialState, action) {
                 service: action.payload.service,
                 testCases: action.payload.tests,
                 serviceName: action.payload.service_name,
+                templateName: action.payload.template_name,
                 finished: action.payload.finished,
                 loaded: true
             };
