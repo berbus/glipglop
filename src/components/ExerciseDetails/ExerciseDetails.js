@@ -78,7 +78,7 @@ class ExerciseDetails extends React.Component {
                             </div>
                         </DetailsHeader>
 
-                        <div className="row mt-5">
+                        <div className="row">
                             <h2>Findings</h2>
                             {this.props.findingsLoaded
                                 ? <>
