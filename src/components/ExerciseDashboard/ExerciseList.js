@@ -2,8 +2,8 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 
-import Exercise from "./Exercise";
-import NewExercisePopup from "./NewExercisePopup";
+import Exercise from './Exercise';
+import NewExercisePopup from './NewExercisePopup';
 import { getExercises } from '../../actions/exercise';
 import { getServices } from '../../actions/service';
 import { getTemplates } from '../../actions/template';

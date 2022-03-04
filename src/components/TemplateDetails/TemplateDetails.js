@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { connect } from 'react-redux';
-import { FaSearch } from "react-icons/fa";
-import { IconContext } from "react-icons";
+import { FaSearch } from 'react-icons/fa';
+import { IconContext } from 'react-icons';
 import { Form } from 'react-bootstrap/'
 
 import { getTemplateDetails, clearTemplateDetails, updateTemplateDetails } from '../../actions/templateDetails';

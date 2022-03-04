@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { IconContext } from "react-icons";
-import { AiFillCheckCircle } from "react-icons/ai";
+import { IconContext } from 'react-icons';
+import { AiFillCheckCircle } from 'react-icons/ai';
 
 export class OnClickEditor extends React.Component {
     constructor (props) {

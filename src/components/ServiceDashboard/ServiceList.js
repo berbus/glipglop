@@ -2,9 +2,9 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 
-import Service from "./Service";
+import Service from './Service';
 import { getServices } from '../../actions/service';
-import NewServicePopup from "./NewServicePopup";
+import NewServicePopup from './NewServicePopup';
 import { Loading } from '../Common';
 
 

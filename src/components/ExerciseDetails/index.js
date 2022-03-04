@@ -2,8 +2,7 @@ import React from 'react';
 
 import { useParams } from 'react-router-dom';
 
-
-import ExerciseDetails from "./ExerciseDetails";
+import ExerciseDetails from './ExerciseDetails';
 
 
 export default function ExerciseDetailsLoader () {

@@ -3,7 +3,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 
 
-import ServiceDetails from "./ServiceDetails";
+import ServiceDetails from './ServiceDetails';
 
 
 export default function ServiceDetailsLoader () {

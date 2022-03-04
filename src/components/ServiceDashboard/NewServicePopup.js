@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 import { Modal } from 'react-bootstrap/';
 import { connect } from 'react-redux';

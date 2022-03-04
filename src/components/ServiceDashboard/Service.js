@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { connect } from 'react-redux';
-import { FaRegEdit, FaTrash } from "react-icons/fa";
-import { IconContext } from "react-icons";
-import { Link } from "react-router-dom";
+import { FaRegEdit, FaTrash } from 'react-icons/fa';
+import { IconContext } from 'react-icons';
+import { Link } from 'react-router-dom';
 
 import { deleteService } from '../../actions/service';
 

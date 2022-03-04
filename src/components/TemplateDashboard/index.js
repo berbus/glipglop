@@ -1,4 +1,4 @@
-import TemplateList from "./TemplateList";
+import TemplateList from './TemplateList';
 
 
 export default function TemplateDashboard () {

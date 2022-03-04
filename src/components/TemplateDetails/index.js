@@ -3,7 +3,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 
 
-import TemplateDetails from "./TemplateDetails";
+import TemplateDetails from './TemplateDetails';
 
 
 export default function TemplateDetailsLoader () {

@@ -2,9 +2,9 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 
-import Template from "./Template";
+import Template from './Template';
 import { getTemplates } from '../../actions/template';
-import NewTemplatePopup from "./NewTemplatePopup";
+import NewTemplatePopup from './NewTemplatePopup';
 import { Loading } from '../Common';
 
 
