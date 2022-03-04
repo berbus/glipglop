@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Template from "./Template";
 import { getTemplates } from '../../actions/template';
 import NewTemplatePopup from "./NewTemplatePopup";
-import Loading from "../Common/Loading";
+import { Loading } from '../Common';
 
 
 class TemplateList extends React.Component {

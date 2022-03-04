@@ -6,8 +6,7 @@ import { MdPlaylistAdd } from "react-icons/md";
 import { Form }from 'react-bootstrap';
 
 import { updateTestCase } from '../../actions/testCase';
-import OnClickEditor from '../Common/OnClickEditor';
-import Loading from "../Common/Loading";
+import { Loading, OnClickEditor } from '../Common';
 
 
 const statusOptions = [

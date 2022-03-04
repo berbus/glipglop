@@ -4,7 +4,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 
-class RichTextEditor extends React.Component {
+export class RichTextEditor extends React.Component {
     constructor (props) {
         super(props)
         this.state = {
@@ -67,6 +67,3 @@ class RichTextEditor extends React.Component {
         )
     }
 }
-
-
-export default RichTextEditor;

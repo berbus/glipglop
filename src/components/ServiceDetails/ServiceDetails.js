@@ -2,7 +2,7 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 
-import Loading from "../Common/Loading";
+import { Loading } from '../Common';
 import { 
     getServiceDetails,
     clearServiceDetails,

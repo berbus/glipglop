@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Service from "./Service";
 import { getServices } from '../../actions/service';
 import NewServicePopup from "./NewServicePopup";
-import Loading from "../Common/Loading";
+import { Loading } from '../Common';
 
 
 class ServiceList extends React.Component {

@@ -7,8 +7,7 @@ import { AiOutlineExperiment, AiFillMinusSquare, AiFillPlusSquare } from "react-
 import { Form, FloatingLabel, Accordion, Badge } from 'react-bootstrap';
 
 import { updateFinding } from '../../actions/finding';
-import RichTextEditor from '../Common/RichTextEditor';
-import OnClickEditor from '../Common/OnClickEditor';
+import { RichTextEditor, OnClickEditor } from '../Common';
 
 
 class Finding extends React.Component {

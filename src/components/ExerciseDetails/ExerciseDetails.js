@@ -7,7 +7,7 @@ import { getExerciseDetails, clearExerciseDetails, completeExercise } from '../.
 import { getFindingsForExercise, clearFindings } from '../../actions/finding';
 import Finding from "./Finding";
 import TestCaseList from "./TestCaseList";
-import Loading from "../Common/Loading";
+import { Loading } from '../Common';
 
 
 class ExerciseDetails extends React.Component {

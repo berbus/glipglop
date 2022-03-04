@@ -3,7 +3,7 @@ import React from 'react';
 import { IconContext } from "react-icons";
 import { AiFillCheckCircle } from "react-icons/ai";
 
-class OnClickEditor extends React.Component {
+export class OnClickEditor extends React.Component {
     constructor (props) {
         super(props)
         this.state = {
@@ -93,6 +93,3 @@ class OnClickEditor extends React.Component {
         )
     }
 }
-
-
-export default OnClickEditor;

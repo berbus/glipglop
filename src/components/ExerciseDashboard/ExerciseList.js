@@ -8,7 +8,7 @@ import { getExercises } from '../../actions/exercise';
 import { getServices } from '../../actions/service';
 import { getTemplates } from '../../actions/template';
 
-import Loading from "../Common/Loading";
+import { Loading } from '../Common';
 
 
 class ExerciseList extends React.Component {
