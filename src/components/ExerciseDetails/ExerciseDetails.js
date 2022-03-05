@@ -82,20 +82,20 @@ class ExerciseDetails extends React.Component {
                             <h2>Findings</h2>
                             {this.props.findingsLoaded
                                 ? <>
-                                    {Object.keys(this.props.findings).length === 0
+                                    {this.props.findings.length === 0
                                         ? <p>No findings.</p>
                                         : 
                                         <Accordion defaultActiveKey="0">
-                                            {Object.keys(this.props.findings).map((oid, index) => ( 
+                                            {this.props.findings.map((finding, index) => ( 
                                                 <Finding 
-                                                    findingId={oid}
-                                                    key={oid}
-                                                    title={this.props.findings[oid].title}
-                                                    description={this.props.findings[oid].description}
-                                                    evidence={this.props.findings[oid].evidence}
-                                                    status={this.props.findings[oid].status}
-                                                    impact={this.props.findings[oid].impact}
-                                                    testCase={this.props.findings[oid].test_case}
+                                                    findingId={finding.oid}
+                                                    key={finding.oid}
+                                                    title={finding.title}
+                                                    description={finding.description}
+                                                    evidence={finding.evidence}
+                                                    status={finding.status}
+                                                    impact={finding.impact}
+                                                    testCase={finding.test_case}
                                                     findingIndex={index}
                                                 />
                                             ))}

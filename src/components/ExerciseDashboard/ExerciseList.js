@@ -51,7 +51,7 @@ class ExerciseList extends React.Component {
                             />
                         </div>
                         <div className="row mt-4">
-                            {Object.keys(this.props.exercises).length === 0 
+                            {this.props.exercises.length === 0 
                                 ? <p>No exercises found</p>
                                 : <ul className="list-group">
                                     {this.props.exercises.map(exercise => (

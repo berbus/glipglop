@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { NavHashLink } from 'react-router-hash-link';
 import { connect } from 'react-redux';
 import { IconContext } from "react-icons";
-import { AiOutlineExperiment, AiFillMinusSquare, AiFillPlusSquare } from "react-icons/ai";
+import { AiFillMinusSquare, AiFillPlusSquare } from "react-icons/ai";
 import { Form, FloatingLabel, Accordion, Badge } from 'react-bootstrap';
 
 import { updateFinding } from '../../actions/finding';
 import { RichTextEditor, OnClickEditor } from '../Common';
+import FindingToolbar from './FindingToolbar';
 
 
 class Finding extends React.Component {
@@ -62,7 +62,7 @@ class Finding extends React.Component {
 
     render () {
         return (
-            <Accordion.Item eventKey={"xx" + this.props.findingIndex}>
+            <Accordion.Item eventKey={"findingN" + this.props.findingIndex}>
                 <Accordion.Header onClick={this.toogleEvent}>
                     <div className="row">
                         <div className="col-1">
@@ -130,26 +130,6 @@ class Finding extends React.Component {
                                         </Form.Select>
                                     </FloatingLabel>
                                 </div>
-                                <div className="col-1"></div>
-                                <div className="col-2">
-                                    <button className="btn btn-primary">
-                                        <IconContext.Provider 
-                                            value={{ 
-                                                size: "1.5em",
-                                                style: { verticalAlign: "middle" } 
-                                            }}>
-                                            <div className="centered-label">
-                                                <NavHashLink to={"#" + this.props.testCase} className="btn-link">
-                                                    <AiOutlineExperiment /><span className="mx-2">Test case</span>
-                                                </NavHashLink>
-                                            </div>
-                                        </IconContext.Provider>
-                                    </button>
-                                </div>
-                                <div className="col-6"></div>
-                            </div>
-                            <div className="row p-3">
-                                <div className="col-1"></div>
                                 <div className="col-2">
                                     <FloatingLabel controlId="impactSelect" label="Impact">
                                         <Form.Select
@@ -165,12 +145,9 @@ class Finding extends React.Component {
                                         </Form.Select>
                                     </FloatingLabel>
                                 </div>
-                                <div className="col-9"></div>
-                            </div>
-                        </form>
-                        <form className="px-3">
-                            <div className="form-group row p-3">
-                                <div className="col-12">
+                                <div className="col-1"></div>
+                                <div className="col-4">
+                                    <FindingToolbar testCase={this.props.testCase} findingId={this.props.findingId} />
                                 </div>
                             </div>
                         </form>

@@ -2,9 +2,9 @@ import {
     GET_FINDINGS,
     CLEAR_FINDINGS,
     CREATE_FINDING,
-    UPDATE_FINDING
+    UPDATE_FINDING,
+    DELETE_FINDING
 } from '../actions/types.js';
-import { itemsListToDict } from '../utils';
 
 const initialState = {
     findings: {},
@@ -12,35 +12,35 @@ const initialState = {
 };
 
 export default function FindingReducer (state = initialState, action) {
-    let newItem = {}
-    let oid = null
-
     switch (action.type) {
         case GET_FINDINGS:
             return {
                 ...state,
-                findings: itemsListToDict(action.payload),
+                findings: action.payload,
                 loaded: true
             };
         case CLEAR_FINDINGS:
             return initialState;
         case CREATE_FINDING:
-            oid = action.payload['oid']
-            delete action.payload['oid'] 
-            newItem[oid] = action.payload
             return {
                 ...state,
-                findings: {...state.findings, ...newItem},
+                findings: state.findings.concat([action.payload]),
                 loaded: true
             };
         case UPDATE_FINDING:
-            oid = action.payload['oid']
-            delete action.payload['oid'] 
-            newItem[oid] = action.payload
             return {
                 ...state,
-                findings: {...state.findings, ...newItem},
+                findings: state.findings.map((finding, i) => {
+                    return finding.oid === action.payload.oid
+                        ? {...finding, ...action.payload} 
+                        : finding}
+                ),
                 loaded: true
+            };
+        case DELETE_FINDING:
+            return {
+                ...state,
+                findings: state.findings.filter(f => f.oid !== action.payload.findingId)
             };
         default:
             return state;

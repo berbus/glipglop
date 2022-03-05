@@ -8,6 +8,7 @@ import {
     GET_FINDINGS,
     CREATE_FINDING,
     CLEAR_FINDINGS,
+    DELETE_FINDING,
     UPDATE_FINDING
 } from './types';
 
@@ -50,7 +51,6 @@ export const createFinding = (exerciseId, testCaseId) => (dispatch, getState) =>
 }
 
 
-
 export const updateFinding = (findingId, data) => (dispatch, getState) => {
     const tid = toast.loading('Loading...')
 
@@ -62,6 +62,24 @@ export const updateFinding = (findingId, data) => (dispatch, getState) => {
                 payload: res.data,
             });
             toast.success('Finding updated', {id: tid});
+        })
+        .catch((err) => {
+            handleActionError(err, tid);
+        });
+}
+
+
+export const deleteFinding = (findingId) => (dispatch, getState) => {
+    const tid = toast.loading('Loading...')
+
+    axios
+        .delete(`/api/finding/${findingId}/`, HTTP_CONF)
+        .then((res) => {
+            dispatch({ 
+                type: DELETE_FINDING,
+                payload: {findingId: findingId}
+            });
+            toast.success('Finding deleted', {id: tid});
         })
         .catch((err) => {
             handleActionError(err, tid);
