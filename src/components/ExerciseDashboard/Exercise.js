@@ -34,8 +34,7 @@ class Exercise extends React.Component {
                                 </IconContext.Provider>
                             </button>
                         </Link>
-                        <button className="btn btn-primary" onClick={this.deleteExercise}>
-                            <IconContext.Provider value={{ size: "1.5em" }}>
+                        <button className="btn btn-primary" onClick={this.deleteExercise}> <IconContext.Provider value={{ size: "1.5em" }}>
                                 <FaTrash />
                             </IconContext.Provider>
                         </button>
