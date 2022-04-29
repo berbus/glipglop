@@ -74,7 +74,7 @@ class ServiceDetails extends React.Component {
                                 return <>
                                     <ListGroup.Item key={ex.oid}>
                                         <div className="row">
-                                            <div className="col-1">
+                                            <div className="col-2">
                                                 {ex.creation_date}
                                             </div>
                                             <div className="col-1">
@@ -85,7 +85,7 @@ class ServiceDetails extends React.Component {
                                             <div className="col-5">
                                                 {ex.title}
                                             </div>
-                                            <div className="col-5">
+                                            <div className="col-4">
                                                 {ex.template_name}
                                             </div>
                                         </div>
