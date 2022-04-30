@@ -1,3 +1,13 @@
+# glipglop
+
+# Setup and running
+
+```
+npm i
+npm run build:dev
+npm run start:express
+curl http://localhost:3000
+```
 
 
 # Fighting CKEditor

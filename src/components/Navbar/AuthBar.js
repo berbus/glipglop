@@ -30,7 +30,7 @@ class AuthBar extends React.Component {
                                     data-client_id="374530185068-80p56653ls8v4sjfumrfdne860ab5kcn.apps.googleusercontent.com"
                                     data-context="signin"
                                     data-ux_mode="redirect"
-                                    data-login_uri="http://localhost:8000/api/user/login/"
+                                    data-login_uri="/api/user/login/"
                                     data-nonce=""
                                     data-auto_prompt="false">
                                 </div>
