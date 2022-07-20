@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 
 import { Loading } from '../Common';
 import TestCase from "./TestCase";
-import { getTestCaseForExercise, clearTestCases } from '../../actions/testCase';
+import OwaspSectionTitle from "./OwaspSectionTitle";
+import { getTestCaseForExercise, clearTestCases, bulkUpdateTestCase } from '../../actions/testCase';
 import { createFinding } from '../../actions/finding';
 
 
@@ -13,15 +14,30 @@ class TestCaseList extends React.Component {
         super(props)
 
         this.state = {
-            loaded: this.props.testCasesLoaded
+            loaded: this.props.testCasesLoaded,
+            selectedTests: {},
+            selectedSections: {}
         }
 
         this.createFinding = this.createFinding.bind(this);
+        this.handleSectionClick = this.handleSectionClick.bind(this);
+        this.updateSelectedTCCallback = this.updateSelectedTCCallback.bind(this);
+        this.bulkEdit = this.bulkEdit.bind(this);
     }
 
     componentDidMount () {
         if (!this.props.testCasesLoaded) {
             this.props.getTestCaseForExercise(this.props.exerciseId)
+
+
+            let auxSelectedTests = {}
+            let auxSelectedSections = {}
+            Object.keys(this.props.testCases).forEach(oid => {
+                auxSelectedTests[oid] = false
+                auxSelectedSections[this.props.testCases[oid].requirement.owasp_section] = false
+            });
+
+            this.setState({'selectedTests': auxSelectedTests, 'selectedSections': auxSelectedSections})
         };
     }
 
@@ -39,38 +55,101 @@ class TestCaseList extends React.Component {
         this.props.createFinding(this.props.exerciseId, testCaseId);
     }
 
+    handleSectionClick (section) {
+        let auxSelectedTests = this.state.selectedTests;
+        let auxSelectedSections = this.state.selectedSections;
+        let newSectionState = !this.state.selectedSections[section];
+
+        Object.entries(this.props.testCases).filter(
+            ([k, v]) => v.requirement.owasp_section === section).forEach(
+                ([k, val]) => {
+                    auxSelectedTests[k] = newSectionState;
+                })
+
+        auxSelectedSections[section] = newSectionState;
+        this.setState({'selectedTests': auxSelectedTests, 'selectedSections': auxSelectedSections})
+    }
+
+    updateSelectedTCCallback (oid) {
+        let auxSelectedTests = this.state.selectedTests;
+        auxSelectedTests[oid] = !auxSelectedTests[oid];
+        this.setState({'selectedTests': auxSelectedTests});
+    }
+
+    clearSelected () {
+        let auxSelectedTests = this.state.selectedTests;
+        let auxSelectedSections = this.state.selectedSections;
+
+        Object.keys(auxSelectedTests).forEach(k => {
+            auxSelectedTests[k] = false;
+        })
+
+        Object.keys(auxSelectedSections).forEach(k => {
+            auxSelectedSections[k] = false;
+        })
+
+        this.setState({'selectedTests': auxSelectedTests, 'selectedSections': auxSelectedSections})
+    }
+
+    bulkEdit (data) {
+        let idsList = Object.keys(Object.fromEntries(
+            Object.entries(this.state.selectedTests).filter(([a, b]) => b)));
+        this.props.bulkUpdateTestCase(idsList, data);
+        this.clearSelected();
+    }
+
     render () {
+        let listItems = [];
+        let prevSection = 0;
+
+        Object.keys(this.props.testCases).map((oid, index) => {
+            let tc = this.props.testCases[oid];
+            let section = tc.requirement.owasp_section;
+
+            if (prevSection < section) {
+                listItems.push(<OwaspSectionTitle 
+                    key={"owasp-section-" + section}
+                    clickListener={this.handleSectionClick} 
+                    section={section}/>);
+                prevSection++;
+            }
+
+            listItems.push(<TestCase 
+                key={oid}
+                testId={oid} 
+                creationDate={tc.creation_date}
+                testStatus={tc.status}
+                description={tc.description}
+                requirement={tc.requirement}
+                createFindingCallback={this.createFinding}
+                selected={this.state.selectedTests[oid]}
+                updateSelectedCallback={this.updateSelectedTCCallback}
+                bulkEditCallback={this.bulkEdit}
+                />);
+        });
+
         return (
             <>
-                {!this.state.loaded
-                    ? <Loading />
-                    : <>
-                        <h2>Test cases</h2>
-                        <table className="table table-sm">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Requirement</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Description</th>
-                                    <th scope="col">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {Object.keys(this.props.testCases).map((oid, index) => (
-                                    <TestCase
-                                        key={oid}
-                                        testId={oid} 
-                                        creationDate={this.props.testCases[oid].creation_date}
-                                        status={this.props.testCases[oid].status}
-                                        description={this.props.testCases[oid].description}
-                                        requirement={this.props.testCases[oid].requirement}
-                                        createFindingCallback={this.createFinding}
-                                    />
-                                ))}
-                            </tbody>
-                        </table>
-                    </>
-                }
+            {!this.state.loaded
+                ? <Loading />
+                : <>
+                <h2>Test cases</h2>
+                <table className="table table-sm">
+                    <thead>
+                        <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Requirement</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {listItems}
+                    </tbody>
+                </table>
+                </>
+            }
             </>
         );
     }
@@ -84,5 +163,6 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
     createFinding,
     getTestCaseForExercise,
-    clearTestCases
+    clearTestCases,
+    bulkUpdateTestCase
 })(TestCaseList);

@@ -6,3 +6,5 @@ export const HTTP_CONF = {
         'X-CSRFToken': Cookies.get('csrftoken')
     },
 };
+
+export { OWASP_SECTIONS } from './owaspSections';

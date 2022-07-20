@@ -55,7 +55,7 @@ class NewExercisePopup extends React.Component {
     };
 
     dictToSelectOptions (itemsDict) {
-        var result = []
+        let result = []
 
         if (itemsDict != null) {
             for (const [oid, item] of Object.entries(itemsDict)) {

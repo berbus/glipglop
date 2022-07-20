@@ -22,23 +22,27 @@ class TestCase extends React.Component {
 
         this.state = {
             loaded: true,
-            status: this.props.status
+            testStatus: this.props.testStatus
         }
 
-        this.handleChangeStatus = this.handleChangeStatus.bind(this);
         this.handleChangeDescription = this.handleChangeDescription.bind(this);
+        this.handleChangeSelected = this.handleChangeSelected.bind(this);
         this.handleTestCaseChange = this.handleTestCaseChange.bind(this);
         this.createFinding = this.createFinding.bind(this);
     }
 
-    handleChangeStatus (newStatus) {
-        const data = {'status': newStatus.value}
-        this.props.updateTestCase(this.props.testId, data)
+    handleChangeDescription (newValue) {
+        if (this.props.selected) {
+            const data = {'new_data': {'description': newValue}}
+            this.props.bulkEditCallback(data)
+        } else {
+            const data = {'description': newValue}
+            this.props.updateTestCase(this.props.testId, data)
+        }
     }
 
-    handleChangeDescription (newValue) {
-        const data = {'description': newValue}
-        this.props.updateTestCase(this.props.testId, data)
+    handleChangeSelected () {
+        this.props.updateSelectedCallback(this.props.testId);
     }
 
     createFinding () {
@@ -52,7 +56,12 @@ class TestCase extends React.Component {
         data[statusKey] = newValue;
 
         this.setState(data);
-        this.props.updateTestCase(this.props.testId, data)
+        if (this.props.selected) {
+            data = {'new_data': {'status': newValue}}
+            this.props.bulkEditCallback(data)
+        } else {
+            this.props.updateTestCase(this.props.testId, data)
+        }
     }
 
     render () {
@@ -61,7 +70,10 @@ class TestCase extends React.Component {
                 {!this.state.loaded
                     ? <Loading />
                     :<tr>
-                        <td className="col-2" id={this.props.testId}>
+                        <td className="col-1" id={this.props.testId} onClick={this.handleChangeSelected}>
+                            {this.props.selected ? <>O</> : <>X</>}
+                        </td>
+                        <td className="col-1" id={this.props.testId}>
                             <p title={this.props.requirement.description}>
                                 {this.props.requirement.readable_id}
                             </p>
@@ -70,9 +82,9 @@ class TestCase extends React.Component {
                             <Form>
                                 <Form.Select
                                     id="testCaseStatus"
-                                    name="status"
+                                    name="testStatus"
                                     onChange={this.handleTestCaseChange}
-                                    value={this.state.status}>
+                                    value={this.state.testStatus}>
                                     {statusOptions.map((value, i) => {
                                         return <option key={i} value={value}>{value}</option>
                                     })}
