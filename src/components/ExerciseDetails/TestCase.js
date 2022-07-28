@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { IconContext } from "react-icons";
 import { MdPlaylistAdd } from "react-icons/md";
 import { Form }from 'react-bootstrap';
+import { ImCheckboxUnchecked, ImCheckboxChecked } from 'react-icons/im';
 
 import { updateTestCase } from '../../actions/testCase';
 import { Loading, OnClickEditor } from '../Common';
@@ -64,12 +65,19 @@ class TestCase extends React.Component {
             <>
                 {!this.state.loaded
                     ? <Loading />
-                    :<tr>
+                    :<tr className={`${this.props.selected ? "selected" : ""}`}>
                         <td className="col-1" id={this.props.testId} onClick={this.handleChangeSelected}>
-                            {this.props.selected ? <>O</> : <>X</>}
+                            <div  className="p-2 align-middle">
+                                <IconContext.Provider value={{ size: "2em" }}>
+                                    {this.props.selected
+                                        ? <ImCheckboxChecked />
+                                        : <ImCheckboxUnchecked />
+                                    }
+                                </IconContext.Provider>
+                            </div>
                         </td>
                         <td className="col-1" id={this.props.testId}>
-                            <p title={this.props.requirement.description}>
+                            <p title={this.props.requirement.description} className="p-2 m-0">
                                 {this.props.requirement.readable_id}
                             </p>
                         </td>

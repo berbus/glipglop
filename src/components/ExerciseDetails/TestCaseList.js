@@ -109,6 +109,7 @@ class TestCaseList extends React.Component {
                 listItems.push(<OwaspSectionTitle 
                     key={"owasp-section-" + section}
                     clickListener={this.handleSectionClick} 
+                    selected={this.state.selectedSections[section]}
                     section={section}/>);
                 prevSection++;
             }
@@ -136,11 +137,11 @@ class TestCaseList extends React.Component {
                 <table className="table table-sm">
                     <thead>
                         <tr>
-                        <th scope="col"></th>
-                        <th scope="col">Requirement</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Actions</th>
+                        <th scope="col-1"></th>
+                        <th scope="col-1">Requirement</th>
+                        <th scope="col-2">Status</th>
+                        <th scope="col-6">Description</th>
+                        <th scope="col-2">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
