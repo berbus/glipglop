@@ -16,8 +16,7 @@ class TestCaseList extends React.Component {
 
         this.state = {
             loaded: this.props.testCasesLoaded,
-            selectedTests: {},
-            selectedSections: {}
+            testCaseSelection: {}
         }
 
         this.createFinding = this.createFinding.bind(this);
@@ -31,21 +30,17 @@ class TestCaseList extends React.Component {
         if (!this.props.testCasesLoaded) {
             this.props.getTestCaseForExercise(this.props.exerciseId)
 
-
-            let auxSelectedTests = {}
-            let auxSelectedSections = {}
-            Object.keys(this.props.testCases).forEach(oid => {
-                auxSelectedTests[oid] = false
-                auxSelectedSections[this.props.testCases[oid].requirement.owasp_section] = false
-            });
-
-            this.setState({'selectedTests': auxSelectedTests, 'selectedSections': auxSelectedSections})
         };
     }
 
     componentDidUpdate(prevProps) {
         if (!this.state.loaded && this.props.testCasesLoaded) {
-            this.setState({'loaded': true})
+            let auxTestCaseSelection = {}
+            Object.keys(this.props.testCases).forEach(oid => {
+                auxTestCaseSelection[oid] = {selected: false, section: this.props.testCases[oid].requirement.owasp_section}
+            });
+
+            this.setState({'testCaseSelection': auxTestCaseSelection, 'loaded': true})
         }
     }
 
@@ -58,44 +53,37 @@ class TestCaseList extends React.Component {
     }
 
     handleSectionClick (section) {
-        let auxSelectedTests = this.state.selectedTests;
-        let auxSelectedSections = this.state.selectedSections;
-        let newSectionState = !this.state.selectedSections[section];
+        let auxTestCaseSelection = this.state.testCaseSelection;
+        let newSectionState = !Object.values(this.state.testCaseSelection)
+            .filter(v => v.section === section)
+            .every(v => v.selected === true);
+        let sectionTestCases = Object.keys(this.state.testCaseSelection)
+            .filter(oid => this.state.testCaseSelection[oid].section === section);
 
-        Object.entries(this.props.testCases).filter(
-            ([k, v]) => v.requirement.owasp_section === section).forEach(
-                ([k, val]) => {
-                    auxSelectedTests[k] = newSectionState;
-                })
+        sectionTestCases.forEach(oid => {
+            auxTestCaseSelection[oid].selected = newSectionState;
+        });
 
-        auxSelectedSections[section] = newSectionState;
-        this.setState({'selectedTests': auxSelectedTests, 'selectedSections': auxSelectedSections})
+        this.setState({'testCaseSelection': auxTestCaseSelection})
     }
 
     updateSelectedTCCallback (oid) {
-        let auxSelectedTests = this.state.selectedTests;
-        auxSelectedTests[oid] = !auxSelectedTests[oid];
-        this.setState({'selectedTests': auxSelectedTests});
+        let auxTestCaseSelection = this.state.testCaseSelection;
+        auxTestCaseSelection[oid].selected = !auxTestCaseSelection[oid].selected;
+        this.setState({'testCaseSelection': auxTestCaseSelection});
     }
 
     clearSelected () {
-        let auxSelectedTests = this.state.selectedTests;
-        let auxSelectedSections = this.state.selectedSections;
+        let auxTestCaseSelection = this.state.testCaseSelection;
+        Object.keys(this.state.testCaseSelection).forEach(oid => {
+            auxTestCaseSelection[oid].selected = false;
+        });
 
-        Object.keys(auxSelectedTests).forEach(k => {
-            auxSelectedTests[k] = false;
-        })
-
-        Object.keys(auxSelectedSections).forEach(k => {
-            auxSelectedSections[k] = false;
-        })
-
-        this.setState({'selectedTests': auxSelectedTests, 'selectedSections': auxSelectedSections})
+        this.setState({'testCaseSelection': auxTestCaseSelection})
     }
 
     bulkEdit (data) {
-        let idsList = Object.keys(Object.fromEntries(
-            Object.entries(this.state.selectedTests).filter(([a, b]) => b)));
+        let idsList = Object.keys(this.state.testCaseSelection).filter(oid => this.state.testCaseSelection[oid].selected)
         this.props.bulkUpdateTestCase(idsList, data);
         this.clearSelected();
     }
@@ -104,31 +92,35 @@ class TestCaseList extends React.Component {
         let listItems = [];
         let prevSection = 0;
 
-        Object.keys(this.props.testCases).forEach(oid => {
-            let section = this.props.testCases[oid].requirement.owasp_section;
+        if (Object.keys(this.state.testCaseSelection).length !== 0) {
+            Object.keys(this.props.testCases).forEach(oid => {
+                let section = this.props.testCases[oid].requirement.owasp_section;
 
-            if (prevSection < section) {
-                listItems.push(<OwaspSectionTitle 
-                    key={"owasp-section-" + section}
-                    clickListener={this.handleSectionClick} 
-                    selected={this.state.selectedSections[section]}
-                    section={section}/>);
-                prevSection++;
-            }
+                if (prevSection < section) {
+                    listItems.push(<OwaspSectionTitle 
+                        key={"owasp-section-" + section}
+                        clickListener={this.handleSectionClick} 
+                        selected={Object.values(this.state.testCaseSelection)
+                            .filter(v => v.section === section)
+                            .some(v => v.selected === true)}
+                        section={section}/>);
+                    prevSection++;
+                }
 
-            listItems.push(<TestCase 
-                key={oid}
-                testId={oid} 
-                creationDate={this.props.testCases[oid].creation_date}
-                testStatus={this.props.testCases[oid].status}
-                description={this.props.testCases[oid].description}
-                requirement={this.props.testCases[oid].requirement}
-                createFindingCallback={this.createFinding}
-                selected={this.state.selectedTests[oid]}
-                updateSelectedCallback={this.updateSelectedTCCallback}
-                bulkEditCallback={this.bulkEdit}
-                />);
-        });
+                listItems.push(<TestCase 
+                    key={oid}
+                    testId={oid} 
+                    creationDate={this.props.testCases[oid].creation_date}
+                    testStatus={this.props.testCases[oid].status}
+                    description={this.props.testCases[oid].description}
+                    requirement={this.props.testCases[oid].requirement}
+                    createFindingCallback={this.createFinding}
+                    selected={this.state.testCaseSelection[oid].selected}
+                    updateSelectedCallback={this.updateSelectedTCCallback}
+                    bulkEditCallback={this.bulkEdit}
+                    />);
+            });
+        }
 
         return (
             <>
@@ -150,7 +142,7 @@ class TestCaseList extends React.Component {
                         {listItems}
                     </tbody>
                 </table>
-                {Object.values(this.state.selectedTests).every(v => v === false) 
+                {Object.values(this.state.testCaseSelection).every(v => v.selected === false) 
                     ? <></>
                     : <FloatingButton action={this.clearSelected}/>
                 }
