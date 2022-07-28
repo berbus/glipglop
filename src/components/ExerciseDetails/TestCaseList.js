@@ -102,9 +102,8 @@ class TestCaseList extends React.Component {
         let listItems = [];
         let prevSection = 0;
 
-        Object.keys(this.props.testCases).map((oid, index) => {
-            let tc = this.props.testCases[oid];
-            let section = tc.requirement.owasp_section;
+        Object.keys(this.props.testCases).forEach(oid => {
+            let section = this.props.testCases[oid].requirement.owasp_section;
 
             if (prevSection < section) {
                 listItems.push(<OwaspSectionTitle 
@@ -117,10 +116,10 @@ class TestCaseList extends React.Component {
             listItems.push(<TestCase 
                 key={oid}
                 testId={oid} 
-                creationDate={tc.creation_date}
-                testStatus={tc.status}
-                description={tc.description}
-                requirement={tc.requirement}
+                creationDate={this.props.testCases[oid].creation_date}
+                testStatus={this.props.testCases[oid].status}
+                description={this.props.testCases[oid].description}
+                requirement={this.props.testCases[oid].requirement}
                 createFindingCallback={this.createFinding}
                 selected={this.state.selectedTests[oid]}
                 updateSelectedCallback={this.updateSelectedTCCallback}

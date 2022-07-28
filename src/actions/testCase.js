@@ -56,7 +56,7 @@ export const bulkUpdateTestCase = (testIds, data) => (dispatch, getState) => {
         .then((res) => {
             dispatch({
                 type: BULK_UPDATE_TEST_CASE,
-                payload: res.data,
+                payload: res.data
             });
             toast.success('Selected test cases updated', {id: tid});
         })

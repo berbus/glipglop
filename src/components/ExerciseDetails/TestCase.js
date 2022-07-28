@@ -21,13 +21,12 @@ class TestCase extends React.Component {
         super(props)
 
         this.state = {
-            loaded: true,
-            testStatus: this.props.testStatus
+            loaded: true
         }
 
         this.handleChangeDescription = this.handleChangeDescription.bind(this);
         this.handleChangeSelected = this.handleChangeSelected.bind(this);
-        this.handleTestCaseChange = this.handleTestCaseChange.bind(this);
+        this.handleTestCaseStatusChange = this.handleTestCaseStatusChange.bind(this);
         this.createFinding = this.createFinding.bind(this);
     }
 
@@ -49,15 +48,11 @@ class TestCase extends React.Component {
         this.props.createFindingCallback(this.props.testId);
     }
 
-    handleTestCaseChange (event) {
-        let data = {}
-        const newValue = event.target.value;
-        const statusKey = event.target.name;
-        data[statusKey] = newValue;
+    handleTestCaseStatusChange (event) {
+        let data = {status: event.target.value};
 
-        this.setState(data);
         if (this.props.selected) {
-            data = {'new_data': {'status': newValue}}
+            data = {'new_data': data}
             this.props.bulkEditCallback(data)
         } else {
             this.props.updateTestCase(this.props.testId, data)
@@ -82,9 +77,9 @@ class TestCase extends React.Component {
                             <Form>
                                 <Form.Select
                                     id="testCaseStatus"
-                                    name="testStatus"
-                                    onChange={this.handleTestCaseChange}
-                                    value={this.state.testStatus}>
+                                    name="status"
+                                    onChange={this.handleTestCaseStatusChange}
+                                    value={this.props.testStatus}>
                                     {statusOptions.map((value, i) => {
                                         return <option key={i} value={value}>{value}</option>
                                     })}
