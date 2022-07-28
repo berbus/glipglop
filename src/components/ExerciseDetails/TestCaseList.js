@@ -7,6 +7,7 @@ import TestCase from "./TestCase";
 import OwaspSectionTitle from "./OwaspSectionTitle";
 import { getTestCaseForExercise, clearTestCases, bulkUpdateTestCase } from '../../actions/testCase';
 import { createFinding } from '../../actions/finding';
+import FloatingButton from './FloatingButton';
 
 
 class TestCaseList extends React.Component {
@@ -23,6 +24,7 @@ class TestCaseList extends React.Component {
         this.handleSectionClick = this.handleSectionClick.bind(this);
         this.updateSelectedTCCallback = this.updateSelectedTCCallback.bind(this);
         this.bulkEdit = this.bulkEdit.bind(this);
+        this.clearSelected = this.clearSelected.bind(this);
     }
 
     componentDidMount () {
@@ -148,6 +150,10 @@ class TestCaseList extends React.Component {
                         {listItems}
                     </tbody>
                 </table>
+                {Object.values(this.state.selectedTests).every(v => v === false) 
+                    ? <></>
+                    : <FloatingButton action={this.clearSelected}/>
+                }
                 </>
             }
             </>

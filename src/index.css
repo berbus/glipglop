@@ -39,3 +39,12 @@ a:hover {
 .selected {
   background-color: #f2ffe8;
 }
+
+.float {
+  position: fixed;
+  top: 92%;
+  left: 95%;
+  width: 50px;
+  border:none;
+}
+
