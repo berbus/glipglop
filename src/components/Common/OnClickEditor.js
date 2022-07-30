@@ -86,7 +86,7 @@ export class OnClickEditor extends React.Component {
                         </div>
                     </form>
                     : <div onClick={this.enableEditor} className="bg-white p-2">
-                        {this.state.content !== '' ? this.state.content : <i>No content</i>}
+                        {this.props.initialData !== '' ? this.props.initialData : <i>No content</i>}
                     </div>
                 }
             </>

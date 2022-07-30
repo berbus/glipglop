@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { IconContext } from "react-icons";
 import { MdPlaylistAdd } from "react-icons/md";
 import { Form }from 'react-bootstrap';
+import { ImCheckboxUnchecked, ImCheckboxChecked } from 'react-icons/im';
 
 import { updateTestCase } from '../../actions/testCase';
 import { Loading, OnClickEditor } from '../Common';
@@ -21,38 +22,42 @@ class TestCase extends React.Component {
         super(props)
 
         this.state = {
-            loaded: true,
-            status: this.props.status
+            loaded: true
         }
 
-        this.handleChangeStatus = this.handleChangeStatus.bind(this);
         this.handleChangeDescription = this.handleChangeDescription.bind(this);
-        this.handleTestCaseChange = this.handleTestCaseChange.bind(this);
+        this.handleChangeSelected = this.handleChangeSelected.bind(this);
+        this.handleTestCaseStatusChange = this.handleTestCaseStatusChange.bind(this);
         this.createFinding = this.createFinding.bind(this);
     }
 
-    handleChangeStatus (newStatus) {
-        const data = {'status': newStatus.value}
-        this.props.updateTestCase(this.props.testId, data)
+    handleChangeDescription (newValue) {
+        if (this.props.selected) {
+            const data = {'new_data': {'description': newValue}}
+            this.props.bulkEditCallback(data)
+        } else {
+            const data = {'description': newValue}
+            this.props.updateTestCase(this.props.testId, data)
+        }
     }
 
-    handleChangeDescription (newValue) {
-        const data = {'description': newValue}
-        this.props.updateTestCase(this.props.testId, data)
+    handleChangeSelected () {
+        this.props.updateSelectedCallback(this.props.testId);
     }
 
     createFinding () {
         this.props.createFindingCallback(this.props.testId);
     }
 
-    handleTestCaseChange (event) {
-        let data = {}
-        const newValue = event.target.value;
-        const statusKey = event.target.name;
-        data[statusKey] = newValue;
+    handleTestCaseStatusChange (event) {
+        let data = {status: event.target.value};
 
-        this.setState(data);
-        this.props.updateTestCase(this.props.testId, data)
+        if (this.props.selected) {
+            data = {'new_data': data}
+            this.props.bulkEditCallback(data)
+        } else {
+            this.props.updateTestCase(this.props.testId, data)
+        }
     }
 
     render () {
@@ -60,9 +65,19 @@ class TestCase extends React.Component {
             <>
                 {!this.state.loaded
                     ? <Loading />
-                    :<tr>
-                        <td className="col-2" id={this.props.testId}>
-                            <p title={this.props.requirement.description}>
+                    :<tr className={`${this.props.selected ? "selected" : ""}`}>
+                        <td className="col-1" id={this.props.testId} onClick={this.handleChangeSelected}>
+                            <div  className="p-2 align-middle">
+                                <IconContext.Provider value={{ size: "2em" }}>
+                                    {this.props.selected
+                                        ? <ImCheckboxChecked />
+                                        : <ImCheckboxUnchecked />
+                                    }
+                                </IconContext.Provider>
+                            </div>
+                        </td>
+                        <td className="col-1" id={this.props.testId}>
+                            <p title={this.props.requirement.description} className="p-2 m-0">
                                 {this.props.requirement.readable_id}
                             </p>
                         </td>
@@ -71,8 +86,8 @@ class TestCase extends React.Component {
                                 <Form.Select
                                     id="testCaseStatus"
                                     name="status"
-                                    onChange={this.handleTestCaseChange}
-                                    value={this.state.status}>
+                                    onChange={this.handleTestCaseStatusChange}
+                                    value={this.props.testStatus}>
                                     {statusOptions.map((value, i) => {
                                         return <option key={i} value={value}>{value}</option>
                                     })}

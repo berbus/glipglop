@@ -1,7 +1,8 @@
 import { 
     GET_TEST_CASE,
     CLEAR_TEST_CASES,
-    UPDATE_TEST_CASE
+    UPDATE_TEST_CASE,
+    BULK_UPDATE_TEST_CASE
 } from '../actions/types.js';
 import { itemsListToDict } from '../utils';
 
@@ -32,6 +33,12 @@ export default function TestCaseReducer (state = initialState, action) {
             return {
                 ...state,
                 testCases: {...state.testCases, ...newItem},
+                loaded: true
+            };
+        case BULK_UPDATE_TEST_CASE:
+            return {
+                ...state,
+                testCases: {...state.testCases, ...itemsListToDict(action.payload)},
                 loaded: true
             };
         default:

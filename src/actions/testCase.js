@@ -7,7 +7,8 @@ import { handleActionError } from '../utils';
 import { 
     GET_TEST_CASE,
     CLEAR_TEST_CASES,
-    UPDATE_TEST_CASE
+    UPDATE_TEST_CASE,
+    BULK_UPDATE_TEST_CASE
 } from './types';
 
 
@@ -40,6 +41,24 @@ export const updateTestCase = (testId, data) => (dispatch, getState) => {
                 payload: res.data,
             });
             toast.success('Test case updated', {id: tid});
+        })
+        .catch((err) => {
+            handleActionError(err, tid);
+        });
+};
+
+export const bulkUpdateTestCase = (testIds, data) => (dispatch, getState) => {
+    const tid = toast.loading('Loading...')
+    data['test_ids'] = testIds;
+
+    axios
+        .patch('/api/test_case/bulk_update/', data, HTTP_CONF)
+        .then((res) => {
+            dispatch({
+                type: BULK_UPDATE_TEST_CASE,
+                payload: res.data
+            });
+            toast.success('Selected test cases updated', {id: tid});
         })
         .catch((err) => {
             handleActionError(err, tid);

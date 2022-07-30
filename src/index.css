@@ -35,3 +35,16 @@ a:hover {
   max-width: 50px;
   border: 2px solid white;
 }
+
+.selected {
+  background-color: #f2ffe8;
+}
+
+.float {
+  position: fixed;
+  top: 92%;
+  left: 95%;
+  width: 50px;
+  border:none;
+}
+
