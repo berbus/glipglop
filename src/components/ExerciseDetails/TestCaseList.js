@@ -29,7 +29,6 @@ class TestCaseList extends React.Component {
     componentDidMount () {
         if (!this.props.testCasesLoaded) {
             this.props.getTestCaseForExercise(this.props.exerciseId)
-
         };
     }
 

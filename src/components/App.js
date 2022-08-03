@@ -17,6 +17,7 @@ import ExerciseDetailsLoader from "./ExerciseDetails";
 import TemplateDashboard from "./TemplateDashboard";
 import TemplateDetailsLoader from "./TemplateDetails";
 import Navbar from "./Navbar";
+import Settings from "./Settings";
 
 
 class App extends React.Component {
@@ -33,6 +34,7 @@ class App extends React.Component {
                         <Route path="/exercises" element={<ExerciseDashboard />} />
                         <Route path="/templates/:templateId" element={<TemplateDetailsLoader />} />
                         <Route path="/templates" element={<TemplateDashboard />} />
+                        <Route path="/settings" element={<Settings />} />
                         <Route path="/" element={<Dashboard />} />
                     </Routes>
                 </BrowserRouter>
@@ -41,7 +43,6 @@ class App extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => ({
-});
+const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, { })(App);
