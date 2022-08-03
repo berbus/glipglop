@@ -21,6 +21,9 @@ export default function Navbar () {
                     <li className="nav-item active">
                         <Link className="nav-link" to="/templates">Templates</Link>
                     </li>
+                    <li className="nav-item active">
+                        <Link className="nav-link" to="/settings">Settings</Link>
+                    </li>
                 </ul>
                 </div>
                 <div className="col text-end">

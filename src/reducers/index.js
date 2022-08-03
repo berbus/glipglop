@@ -9,6 +9,8 @@ import ExerciseDetailsReducer from './exerciseDetailsReducer';
 import TestCaseReducer from './testCaseReducer';
 import FindingReducer from './findingReducer';
 import AuthReducer from './authReducer';
+import JiraTransitionReducer from './jiraTransitionReducer';
+import JiraIssueReducer from './jiraIssueReducer';
 
 export default combineReducers({
     ServiceReducer,
@@ -20,5 +22,7 @@ export default combineReducers({
     RequirementReducer,
     TestCaseReducer,
     FindingReducer,
-    AuthReducer
+    AuthReducer,
+    JiraTransitionReducer,
+    JiraIssueReducer
 });

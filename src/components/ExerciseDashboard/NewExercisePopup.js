@@ -5,6 +5,7 @@ import { Modal } from 'react-bootstrap/';
 import { connect } from 'react-redux';
 
 import { getExercises, createExercise } from '../../actions/exercise';
+import { getJiraIssues } from '../../actions/jiraIssue';
 
 
 class NewExercisePopup extends React.Component {
@@ -14,12 +15,19 @@ class NewExercisePopup extends React.Component {
             visible: false,
             exerciseTitle: '',
             exerciseService: '',
-            exerciseTemplate: ''
+            exerciseTemplate: '',
+            exerciseJiraIssue: undefined
         }
 
 
         this.createNewExercise = this.createNewExercise.bind(this);
         this.handleChangeEvent = this.handleChangeEvent.bind(this);
+    }
+
+    componentDidMount () {
+        if (!this.props.jiraIssuesLoaded) {
+            this.props.getJiraIssues();
+        }
     }
 
     handleClick = () => {
@@ -34,6 +42,7 @@ class NewExercisePopup extends React.Component {
         let title = this.state.exerciseTitle;
         let service = this.state.exerciseService;
         let template = this.state.exerciseTemplate;
+        let jiraIssue = this.state.exerciseJiraIssue;
 
         if (title.length === 0) { 
             console.error('Introduce a title')
@@ -46,24 +55,13 @@ class NewExercisePopup extends React.Component {
                 'title': title, 
                 'service': service, 
                 'template': template, 
+                'jira_issue': jiraIssue,
                 'tests': []
             }
 
             this.props.createExercise(data);
             this.handleClick();
         }
-    };
-
-    dictToSelectOptions (itemsDict) {
-        let result = []
-
-        if (itemsDict != null) {
-            for (const [oid, item] of Object.entries(itemsDict)) {
-                result.push({'label': item['name'], 'value': oid})
-            }
-        }
-
-        return result;
     };
 
     render() {
@@ -142,6 +140,25 @@ class NewExercisePopup extends React.Component {
                                     </div>
                                 </div>
 
+                                <div className="form-group row mb-3">
+                                    <label className="col-4 col-form-label" htmlFor="exerciseIssue">
+                                        Jira issue
+                                    </label>
+                                    <div className="col-8">
+                                        <Form.Select 
+                                            id="exerciseJiraIssue" 
+                                            name="exerciseJiraIssue" 
+                                            onChange={this.handleChangeEvent}
+                                            defaultValue=""
+                                        >
+                                            <option value="" disabled>Select a Jira issue (optional)</option>
+                                            {Object.keys(this.props.jiraIssues).map((oid, i) => {
+                                                return <option key={i} value={oid}>{this.props.jiraIssues[oid].jira_id}</option>
+                                            })}
+                                        </Form.Select>
+                                    </div>
+                                </div>
+
                             </form>
                         </Modal.Body>
                         <Modal.Footer>
@@ -160,5 +177,9 @@ class NewExercisePopup extends React.Component {
 }
 
 
-const mapStateToProps = (state) => ({});
-export default connect(mapStateToProps, { getExercises, createExercise })(NewExercisePopup);
+const mapStateToProps = (state) => ({
+    jiraIssues: state.JiraIssueReducer.issues,
+    jiraIssuesLoaded: state.JiraIssueReducer.issuesLoaded
+});
+
+export default connect(mapStateToProps, { getExercises, createExercise, getJiraIssues })(NewExercisePopup);

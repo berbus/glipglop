@@ -5,7 +5,7 @@ import { toast } from 'react-hot-toast';
 export function itemsListToDict (itemsList) {
     var dstDict = {}
 
-    itemsList.forEach( item => {
+    itemsList.forEach(item => {
         let auxId = item.oid
         delete item.oid
         dstDict[auxId] = item
