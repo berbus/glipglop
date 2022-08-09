@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Loading } from '../Common';
 import TestCase from "./TestCase";
 import OwaspSectionTitle from "./OwaspSectionTitle";
-import { getTestCaseForExercise, clearTestCases, bulkUpdateTestCase } from '../../actions/testCase';
+import { getTestCaseForSecurityTest, clearTestCases, bulkUpdateTestCase } from '../../actions/testCase';
 import { createFinding } from '../../actions/finding';
 import FloatingButton from './FloatingButton';
 
@@ -28,7 +28,7 @@ class TestCaseList extends React.Component {
 
     componentDidMount () {
         if (!this.props.testCasesLoaded) {
-            this.props.getTestCaseForExercise(this.props.exerciseId)
+            this.props.getTestCaseForSecurityTest(this.props.securityTestId)
         };
     }
 
@@ -48,7 +48,7 @@ class TestCaseList extends React.Component {
     }
 
     createFinding (testCaseId) {
-        this.props.createFinding(this.props.exerciseId, testCaseId);
+        this.props.createFinding(this.props.securityTestId, testCaseId);
     }
 
     handleSectionClick (section) {
@@ -159,7 +159,7 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
     createFinding,
-    getTestCaseForExercise,
+    getTestCaseForSecurityTest,
     clearTestCases,
     bulkUpdateTestCase
 })(TestCaseList);

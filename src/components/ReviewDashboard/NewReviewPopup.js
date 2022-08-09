@@ -4,23 +4,22 @@ import { Form }from 'react-bootstrap';
 import { Modal } from 'react-bootstrap/';
 import { connect } from 'react-redux';
 
-import { getExercises, createExercise } from '../../actions/exercise';
+import { createReview } from '../../actions/review';
 import { getJiraIssues } from '../../actions/jiraIssue';
 
 
-class NewExercisePopup extends React.Component {
+class NewReviewPopup extends React.Component {
     constructor (props) {
         super(props)
         this.state = {
             visible: false,
-            exerciseTitle: '',
-            exerciseService: '',
-            exerciseTemplate: '',
-            exerciseJiraIssue: undefined
+            reviewTitle: '',
+            reviewService: '',
+            reviewJiraIssue: undefined
         }
 
 
-        this.createNewExercise = this.createNewExercise.bind(this);
+        this.createNewReview = this.createNewReview.bind(this);
         this.handleChangeEvent = this.handleChangeEvent.bind(this);
     }
 
@@ -38,28 +37,24 @@ class NewExercisePopup extends React.Component {
         this.setState({[event.target.name]: event.target.value});
     }
 
-    createNewExercise = (event) => {
-        let title = this.state.exerciseTitle;
-        let service = this.state.exerciseService;
-        let template = this.state.exerciseTemplate;
-        let jiraIssue = this.state.exerciseJiraIssue;
+    createNewReview = (event) => {
+        let title = this.state.reviewTitle;
+        let service = this.state.reviewService;
+        let jiraIssue = this.state.reviewJiraIssue;
 
         if (title.length === 0) { 
             console.error('Introduce a title')
         } else if (service.length === 0) {
             console.error('Select a service')
-        } else if (template.length === 0) {
-            console.error('Select a template')
         } else {
             let data = {
                 'title': title, 
-                'service': service, 
-                'template': template, 
+                'services': [service], 
                 'jira_issue': jiraIssue,
                 'tests': []
             }
 
-            this.props.createExercise(data);
+            this.props.createReview(data);
             this.handleClick();
         }
     };
@@ -71,7 +66,7 @@ class NewExercisePopup extends React.Component {
                     <div className="col-10"></div>
                     <div className="col-2">
                         <button className="btn btn-primary" onClick={this.handleClick}>
-                            New exercise
+                            New review
                         </button>
                     </div>
                 </div>
@@ -79,14 +74,14 @@ class NewExercisePopup extends React.Component {
                 <div className="row">
                     <Modal show={this.state.visible} onHide={this.handleClick}>
                         <Modal.Header closeButton>
-                            <Modal.Title>New exercise</Modal.Title>
+                            <Modal.Title>New review</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
                             <form>
                                 <div className="form-group row mb-3">
                                     <label 
                                         className="col-4 col-form-label" 
-                                        htmlFor="exerciseTitle">
+                                        htmlFor="reviewTitle">
                                         Title
                                     </label>
                                     <div className="col-8">
@@ -94,7 +89,7 @@ class NewExercisePopup extends React.Component {
                                             type="text" 
                                             className="form-control"
                                             value={this.state.value}
-                                            name="exerciseTitle"
+                                            name="reviewTitle"
                                             onChange={this.handleChangeEvent}
                                         />
                                     </div>
@@ -103,13 +98,13 @@ class NewExercisePopup extends React.Component {
                                 <div className="form-group row mb-3">
                                     <label 
                                         className="col-4 col-form-label" 
-                                        htmlFor="exerciseService">
+                                        htmlFor="reviewService">
                                         Service
                                     </label>
                                     <div className="col-8">
                                         <Form.Select 
-                                            id="exerciseService" 
-                                            name="exerciseService" 
+                                            id="reviewService" 
+                                            name="reviewService" 
                                             onChange={this.handleChangeEvent}
                                             defaultValue=""
                                         >
@@ -122,32 +117,13 @@ class NewExercisePopup extends React.Component {
                                 </div>
 
                                 <div className="form-group row mb-3">
-                                    <label className="col-4 col-form-label" htmlFor="exerciseTemplate">
-                                        Template
-                                    </label>
-                                    <div className="col-8">
-                                        <Form.Select 
-                                            id="exerciseTemplate" 
-                                            name="exerciseTemplate" 
-                                            onChange={this.handleChangeEvent}
-                                            defaultValue=""
-                                        >
-                                            <option value="" disabled>Select a template</option>
-                                            {Object.keys(this.props.templates).map((oid, i) => {
-                                                return <option key={i} value={oid}>{this.props.templates[oid].name}</option>
-                                            })}
-                                        </Form.Select>
-                                    </div>
-                                </div>
-
-                                <div className="form-group row mb-3">
-                                    <label className="col-4 col-form-label" htmlFor="exerciseIssue">
+                                    <label className="col-4 col-form-label" htmlFor="reviewIssue">
                                         Jira issue
                                     </label>
                                     <div className="col-8">
                                         <Form.Select 
-                                            id="exerciseJiraIssue" 
-                                            name="exerciseJiraIssue" 
+                                            id="reviewJiraIssue" 
+                                            name="reviewJiraIssue" 
                                             onChange={this.handleChangeEvent}
                                             defaultValue=""
                                         >
@@ -165,7 +141,7 @@ class NewExercisePopup extends React.Component {
                             <button className="btn btn-danger" onClick={this.handleClick}>
                                 Cancel
                             </button>
-                            <button className="btn btn-success" onClick={this.createNewExercise}>
+                            <button className="btn btn-success" onClick={this.createNewReview}>
                                 Create
                             </button>
                         </Modal.Footer>
@@ -182,4 +158,4 @@ const mapStateToProps = (state) => ({
     jiraIssuesLoaded: state.JiraIssueReducer.issuesLoaded
 });
 
-export default connect(mapStateToProps, { getExercises, createExercise, getJiraIssues })(NewExercisePopup);
+export default connect(mapStateToProps, { createReview, getJiraIssues })(NewReviewPopup);

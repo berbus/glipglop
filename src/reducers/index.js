@@ -1,28 +1,36 @@
 import { combineReducers } from 'redux';
 import ServiceReducer from './serviceReducer';
 import ServiceDetailsReducer from './serviceDetailsReducer';
-import ExerciseReducer from './exerciseReducer';
+import ReviewReducer from './reviewReducer';
 import TemplateReducer from './templateReducer';
 import TemplateDetailsReducer from './templateDetailsReducer';
 import RequirementReducer from './requirementReducer';
-import ExerciseDetailsReducer from './exerciseDetailsReducer';
+import ReviewDetailsReducer from './reviewDetailsReducer';
 import TestCaseReducer from './testCaseReducer';
 import FindingReducer from './findingReducer';
 import AuthReducer from './authReducer';
 import JiraTransitionReducer from './jiraTransitionReducer';
 import JiraIssueReducer from './jiraIssueReducer';
+import SecurityTestReducer from './securityTestReducer';
+import SecurityTestDetailsReducer from './securityTestDetailsReducer';
+import ThreatModelReducer from './threatModelReducer';
+import ThreatModelDetailsReducer from './threatModelDetailsReducer';
 
 export default combineReducers({
     ServiceReducer,
     ServiceDetailsReducer,
-    ExerciseReducer,
+    ReviewReducer,
     TemplateReducer,
     TemplateDetailsReducer,
-    ExerciseDetailsReducer,
+    ReviewDetailsReducer,
     RequirementReducer,
     TestCaseReducer,
     FindingReducer,
     AuthReducer,
     JiraTransitionReducer,
-    JiraIssueReducer
+    JiraIssueReducer,
+    SecurityTestReducer,
+    SecurityTestDetailsReducer,
+    ThreatModelReducer,
+    ThreatModelDetailsReducer
 });

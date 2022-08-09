@@ -12,9 +12,9 @@ import {
 } from './types';
 
 
-export const getTestCaseForExercise = (exerciseId) => (dispatch, getState) => {
+export const getTestCaseForSecurityTest = (securityTestId) => (dispatch, getState) => {
     axios
-        .get(`/api/test_case/?exercise=${exerciseId}`, HTTP_CONF)
+        .get(`/api/test_case/?security_test=${securityTestId}`, HTTP_CONF)
         .then((res) => {
             dispatch({
                 type: GET_TEST_CASE,

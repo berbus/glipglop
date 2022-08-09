@@ -6,7 +6,6 @@ import { HTTP_CONF } from '../constants';
 import { handleActionError } from '../utils';
 import { 
     GET_TEMPLATES,
-    LOADED_TEMPLATES,
     CREATE_TEMPLATE,
     DELETE_TEMPLATE
 } from './types';
@@ -23,7 +22,6 @@ export const getTemplates = () => (dispatch, getState) => {
         })
         .catch((err) => {
             handleActionError(err, null);
-            dispatch({type: LOADED_TEMPLATES});
         });
 };
 
@@ -65,6 +63,5 @@ export const deleteTemplate = (templateId) => (dispatch, getState) => {
         })
         .catch((err) => {
             handleActionError(err, null);
-            dispatch({type: LOADED_TEMPLATES});
         });
 }

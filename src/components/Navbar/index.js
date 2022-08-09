@@ -16,7 +16,13 @@ export default function Navbar () {
                         <Link className="nav-link" to="/services">Services</Link>
                     </li>
                     <li className="nav-item active">
-                        <Link className="nav-link" to="/exercises">Exercises</Link>
+                        <Link className="nav-link" to="/reviews">Reviews</Link>
+                    </li>
+                    <li className="nav-item active">
+                        <Link className="nav-link" to="/security-tests">Security Tests</Link>
+                    </li>
+                    <li className="nav-item active">
+                        <Link className="nav-link" to="/threat-models">Threat Models</Link>
                     </li>
                     <li className="nav-item active">
                         <Link className="nav-link" to="/templates">Templates</Link>

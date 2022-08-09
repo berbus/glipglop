@@ -13,9 +13,9 @@ import {
 } from './types';
 
 
-export const getFindingsForExercise = (exerciseId) => (dispatch, getState) => {
+export const getFindingsForSecurityTest = (securityTestId) => (dispatch, getState) => {
     axios
-        .get(`/api/finding/?exercise=${exerciseId}`, HTTP_CONF)
+        .get(`/api/finding/?security_test=${securityTestId}`, HTTP_CONF)
         .then((res) => {
             dispatch({
                 type: GET_FINDINGS,
@@ -32,9 +32,9 @@ export const clearFindings = () => (dispatch, getState) => {
 };
 
 
-export const createFinding = (exerciseId, testCaseId) => (dispatch, getState) => {
+export const createFinding = (securityTestId, testCaseId) => (dispatch, getState) => {
     const tid = toast.loading('Loading...')
-    const data = {'exercise': exerciseId, 'test_case': testCaseId}
+    const data = {'security_test': securityTestId, 'test_case': testCaseId}
 
     axios
         .post('/api/finding/', data, HTTP_CONF)
