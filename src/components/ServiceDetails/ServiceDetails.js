@@ -2,6 +2,7 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 import { Badge, ListGroup } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 import { Loading, DetailsHeader } from '../Common';
 import { 
@@ -68,27 +69,31 @@ class ServiceDetails extends React.Component {
                                 </div>
                             </div>
                         </DetailsHeader>
-                        <h2>Exercises</h2>
+                        <h2>Reviews</h2>
                         <ListGroup>
-                            {this.props.serviceExercises.map( function(ex) {
+                            {this.props.serviceReviews.map( function(review) {
                                 return <>
-                                    <ListGroup.Item key={ex.oid}>
+
+                                    <ListGroup.Item key={review.oid}>
+                                    <Link to={"/reviews/" + review.oid}>
                                         <div className="row">
                                             <div className="col-2">
-                                                {ex.creation_date}
-                                            </div>
-                                            <div className="col-1">
-                                                <Badge bg={ex.finished ? 'success' : 'danger'}>
-                                                    {ex.finished ? <>Finished</> : <>In progress</>}
-                                                </Badge>
+                                                {review.creation_date}
                                             </div>
                                             <div className="col-5">
-                                                {ex.title}
+                                                {review.title}
                                             </div>
-                                            <div className="col-4">
-                                                {ex.template_name}
+                                            <div className="col-3">
+                                                <Badge bg={review.completion_date !== null ? 'success' : 'danger'}>
+                                                    {review.completion_date !== null 
+                                                        ? <>{"Completed on " + review.completion_date}</> 
+                                                        : <>In progress</>
+                                                    }
+                                                </Badge>
                                             </div>
+                                            <div className="col-2"></div>
                                         </div>
+                                    </Link>
                                     </ListGroup.Item>
                                 </>
                             })}
@@ -105,7 +110,7 @@ const mapStateToProps = (state) => ({
     serviceCreationDate: state.ServiceDetailsReducer.creationDate,
     serviceStatus: state.ServiceDetailsReducer.status,
     serviceDetailsLoaded: state.ServiceDetailsReducer.loaded,
-    serviceExercises: state.ServiceDetailsReducer.exercises
+    serviceReviews: state.ServiceDetailsReducer.reviews
 });
 
 export default connect(mapStateToProps, {

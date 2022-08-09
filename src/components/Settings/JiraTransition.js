@@ -144,7 +144,6 @@ class JiraTransition extends React.Component {
                             </td>
                         </>
                     }
-
                 </tr>
             </>
         );

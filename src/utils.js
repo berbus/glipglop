@@ -28,9 +28,16 @@ export function dictToIdedDict (srcDict) {
 
 
 export function handleActionError (errorObject, toastId) {
-    let msg = errorObject.response.status;
-    for (var [key, value] of Object.entries(errorObject.response.data)) {
-        msg += `\n${key} - ${value}`
+    let msg = '';
+
+    if (errorObject.response !== undefined) {
+        msg = errorObject.response.status;
+        for (var [key, value] of Object.entries(errorObject.response.data)) {
+            msg += `\n${key} - ${value}`
+        }
+    } else {
+        msg = 'Error trace in console'
+        console.log(errorObject);
     }
 
     toast.error(msg, {id: toastId});

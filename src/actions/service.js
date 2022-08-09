@@ -7,7 +7,6 @@ import { handleActionError } from '../utils';
 import {
     GET_SERVICES,
     CREATE_SERVICE,
-    LOADED_SERVICES,
     DELETE_SERVICE
 } from './types';
 
@@ -23,7 +22,6 @@ export const getServices = () => (dispatch, getState) => {
         })
         .catch((err) => {
             handleActionError(err, null);
-            dispatch({type: LOADED_SERVICES});
         });
 };
 

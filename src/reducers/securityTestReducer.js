@@ -1,45 +1,44 @@
 import { 
-    GET_TEMPLATES,
-    CREATE_TEMPLATE,
-    DELETE_TEMPLATE
+    GET_SECURITY_TESTS,
+    CREATE_SECURITY_TEST,
+    DELETE_SECURITY_TEST,
 } from '../actions/types.js';
 import { itemsListToDict } from '../utils';
 
 
 const initialState = {
-    templates: [],
+    security_tests: {},
     loaded: false
 };
 
 
-export default function TemplateReducer (state = initialState, action) {
+export default function SecurityTestReducer (state = initialState, action) {
     let newItem = {}
     let oid = null
 
     switch (action.type) {
-        case GET_TEMPLATES:
+        case GET_SECURITY_TESTS:
             return {
                 ...state,
-                templates: itemsListToDict(action.payload),
+                security_tests: itemsListToDict(action.payload),
                 loaded: true
             };
-        case CREATE_TEMPLATE:
+        case CREATE_SECURITY_TEST:
             oid = action.payload['oid']
             delete action.payload['oid'] 
             newItem[oid] = action.payload
 
             return {
                 ...state,
-                templates: {...state.templates, ...newItem},
-                loaded: true
+                security_tests: {...state.security_tests, ...newItem}
             };
-        case DELETE_TEMPLATE:
+        case DELETE_SECURITY_TEST:
             return {
                 ...state,
-                templates: Object.keys(state.templates)
-                .filter((key) => key !== action.payload.templateId)
+                security_tests: Object.keys(state.security_tests)
+                .filter((key) => key !== action.payload.securityTestId)
                 .reduce((cur, key) => { 
-                    return Object.assign(cur, { [key]: state.templates[key] })
+                    return Object.assign(cur, { [key]: state.security_tests[key] })
                 }, {})
             };
         default:

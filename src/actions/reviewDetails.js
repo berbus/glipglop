@@ -5,18 +5,18 @@ import { toast } from 'react-hot-toast';
 import { HTTP_CONF } from '../constants';
 import { handleActionError } from '../utils';
 import { 
-    GET_EXERCISE_DETAILS,
-    CLEAR_EXERCISE_DETAILS,
-    FINISH_EXERCISE
+    GET_REVIEW_DETAILS,
+    CLEAR_REVIEW_DETAILS,
+    COMPLETE_REVIEW
 } from './types';
 
 
-export const getExerciseDetails = (exerciseId) => (dispatch, getState) => {
+export const getReviewDetails = (reviewId) => (dispatch, getState) => {
     axios
-        .get(`/api/exercise/${exerciseId}`, HTTP_CONF)
+        .get(`/api/review/${reviewId}`, HTTP_CONF)
         .then((res) => {
             dispatch({
-                type: GET_EXERCISE_DETAILS,
+                type: GET_REVIEW_DETAILS,
                 payload: res.data
             });
         })
@@ -26,23 +26,23 @@ export const getExerciseDetails = (exerciseId) => (dispatch, getState) => {
 };
 
 
-export const clearExerciseDetails = () => (dispatch, getState) => {
-    dispatch({ type: CLEAR_EXERCISE_DETAILS });
+export const clearReviewDetails = () => (dispatch, getState) => {
+    dispatch({ type: CLEAR_REVIEW_DETAILS });
 };
 
 
-export const completeExercise = (exerciseId) => (dispatch, getState) => {
+export const completeReview = (reviewId) => (dispatch, getState) => {
     const tid = toast.loading('Loading...')
     const data = {finished: true}
 
     axios
-        .patch(`/api/exercise/${exerciseId}/`, data, HTTP_CONF)
+        .get(`/api/review/${reviewId}/complete/`, data, HTTP_CONF)
         .then((res) => {
             dispatch({
-                type: FINISH_EXERCISE,
+                type: COMPLETE_REVIEW,
                 payload: res.data
             });
-            toast.success('Exercise completed', {id: tid});
+            toast.success('Review completed', {id: tid});
         })
         .catch((err) => {
             handleActionError(err, tid);

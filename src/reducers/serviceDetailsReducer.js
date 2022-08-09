@@ -10,7 +10,7 @@ const initialServiceDetails = {
     name: null,
     creationDate: null, 
     status: null,
-    exercises: [],
+    reviews: [],
     loaded: false
 }
 
@@ -25,7 +25,7 @@ export default function ServiceDetailsReducer (state = initialState, action) {
                 oid: action.payload.oid,
                 name: action.payload.name,
                 creationDate: action.payload.creation_date,
-                exercises: action.payload.exercises,
+                reviews: action.payload.reviews,
                 status: action.payload.status,
                 loaded: true
             };
@@ -34,7 +34,7 @@ export default function ServiceDetailsReducer (state = initialState, action) {
                 ...state,
                 name: action.payload.name,
                 creationDate: action.payload.creation_date,
-                exercises: action.payload.exercises,
+                reviews: action.payload.reviews,
                 status: action.payload.status,
                 loaded: true
             };

@@ -5,40 +5,38 @@ import { toast } from 'react-hot-toast';
 import { HTTP_CONF } from '../constants';
 import { handleActionError } from '../utils';
 import { 
-    GET_EXERCISES,
-    LOADED_EXERCISES,
-    CREATE_EXERCISE,
-    DELETE_EXERCISE
+    GET_REVIEWS,
+    CREATE_REVIEW,
+    DELETE_REVIEW
 } from './types';
 
 
-export const getExercises = () => (dispatch, getState) => {
+export const getReviews = () => (dispatch, getState) => {
     axios
-        .get('/api/exercise/', HTTP_CONF)
+        .get('/api/review/', HTTP_CONF)
         .then((res) => {
             dispatch({
-                type: GET_EXERCISES,
+                type: GET_REVIEWS,
                 payload: res.data
             });
         })
         .catch((err) => {
             handleActionError(err, null);
-            dispatch({type: LOADED_EXERCISES});
         });
 };
 
 
-export const createExercise = (exerciseData) => (dispatch, getState) => {
+export const createReview = (reviewData) => (dispatch, getState) => {
     const tid = toast.loading('Loading...')
 
     axios
-        .post('/api/exercise/', exerciseData, HTTP_CONF)
+        .post('/api/review/', reviewData, HTTP_CONF)
         .then((res) => {
             dispatch({
-                type: CREATE_EXERCISE,
+                type: CREATE_REVIEW,
                 payload: res.data
             });
-            toast.success('Created exercise', {id: tid});
+            toast.success('Created review', {id: tid});
         })
         .catch((err) => {
             handleActionError(err, tid);
@@ -47,17 +45,17 @@ export const createExercise = (exerciseData) => (dispatch, getState) => {
 };
 
 
-export const deleteExercise = (exerciseId) => (dispatch, getState) => {
+export const deleteReview = (reviewId) => (dispatch, getState) => {
     const tid = toast.loading('Loading...')
 
     axios
-        .delete(`/api/exercise/${exerciseId}/`, HTTP_CONF)
+        .delete(`/api/review/${reviewId}/`, HTTP_CONF)
         .then((res) => {
             dispatch({
-                type: DELETE_EXERCISE,
-                payload: {exerciseId: exerciseId}
+                type: DELETE_REVIEW,
+                payload: {reviewId: reviewId}
             });
-            toast.success('Deleted exercise', {id: tid});
+            toast.success('Deleted review', {id: tid});
         })
         .catch((err) => {
             handleActionError(err, tid);
