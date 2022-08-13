@@ -1,12 +1,12 @@
 import React from 'react';
 
 import { Form }from 'react-bootstrap';
-import { Modal } from 'react-bootstrap/';
 import { connect } from 'react-redux';
 
 import { createSecurityTest } from '../../actions/securityTest';
 import { getTemplates } from '../../actions/template';
 import { getServices } from '../../actions/service';
+import { NewItemPopup } from '../Common';
 
 
 class NewSecurityTestPopup extends React.Component {
@@ -17,7 +17,6 @@ class NewSecurityTestPopup extends React.Component {
         const loaded = this.props.services !== undefined
         this.state = {
             loaded: loaded,
-            visible: false,
             SecurityTestTitle: '',
             SecurityTestService: '',
             SecurityTestTemplate: ''
@@ -39,19 +38,16 @@ class NewSecurityTestPopup extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (!this.state.loaded && this.props.serviceListLoaded) {
+            console.log('yeahhhh')
             this.setState({'loaded': true})
         }
     }
-
-    handleClick = () => {
-        this.setState({'visible': !this.state.visible});
-    };
 
     handleChangeEvent (event) {
         this.setState({[event.target.name]: event.target.value});
     }
 
-    createNewSecurityTest = (event) => {
+    createNewSecurityTest () {
         let title = this.state.SecurityTestTitle;
         let service = this.state.SecurityTestService;
         let template = this.state.SecurityTestTemplate;
@@ -71,7 +67,6 @@ class NewSecurityTestPopup extends React.Component {
                 'review': this.props.reviewId
             };
             this.props.createSecurityTest(data, this.props.services !== undefined);
-            this.handleClick();
         }
     };
 
@@ -94,90 +89,68 @@ class NewSecurityTestPopup extends React.Component {
     render() {
         return (
             <>
-                <button className="btn btn-primary" onClick={this.handleClick}>
-                    New security test
-                </button>
-                {!this.state.loaded
-                    ? <></>
-                    : <>
-
-                        <div className="row">
-                            <Modal show={this.state.visible} onHide={this.handleClick}>
-                                <Modal.Header closeButton>
-                                    <Modal.Title>New SecurityTest</Modal.Title>
-                                </Modal.Header>
-                                <Modal.Body>
-                                    <form>
-                                        <div className="form-group row mb-3">
-                                            <label 
-                                                className="col-4 col-form-label" 
-                                                htmlFor="SecurityTestTitle">
-                                                Title
-                                            </label>
-                                            <div className="col-8">
-                                                <input
-                                                    type="text" 
-                                                    className="form-control"
-                                                    value={this.state.value}
-                                                    name="SecurityTestTitle"
-                                                    onChange={this.handleChangeEvent}
-                                                />
-                                            </div>
-                                        </div>
-
-                                        <div className="form-group row mb-3">
-                                            <label 
-                                                className="col-4 col-form-label" 
-                                                htmlFor="SecurityTestService">
-                                                Service
-                                            </label>
-                                            <div className="col-8">
-                                                <Form.Select 
-                                                    id="SecurityTestService" 
-                                                    name="SecurityTestService" 
-                                                    onChange={this.handleChangeEvent}
-                                                    defaultValue=""
-                                                >
-                                                    <option value="" disabled>Select a service</option>
-                                                    {this.serviceListJSX()}
-                                                </Form.Select>
-                                            </div>
-                                        </div>
-
-                                        <div className="form-group row mb-3">
-                                            <label 
-                                                className="col-4 col-form-label" 
-                                                htmlFor="SecurityTestTemplate">
-                                                Template
-                                            </label>
-                                            <div className="col-8">
-                                                <Form.Select
-                                                    id="SecurityTestTemplate"
-                                                    name="SecurityTestTemplate"
-                                                    onChange={this.handleChangeEvent}
-                                                    defaultValue=""
-                                                >
-                                                    <option value="" disabled>Select a template</option>
-                                                    {Object.keys(this.props.templates).map((oid, i) => {
-                                                        return <option key={i} value={oid}>{this.props.templates[oid].name}</option>
-                                                    })}
-                                                </Form.Select>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </Modal.Body>
-                                <Modal.Footer>
-                                    <button className="btn btn-danger" onClick={this.handleClick}>
-                                        Cancel
-                                    </button>
-                                    <button className="btn btn-success" onClick={this.createNewSecurityTest}>
-                                        Create
-                                    </button>
-                                </Modal.Footer>
-                            </Modal>
+                <NewItemPopup 
+                    title="New security test"
+                    loaded={this.state.loaded}
+                    createCallback={this.createNewSecurityTest}
+                >
+                    <div className="form-group row mb-3">
+                        <label 
+                            className="col-4 col-form-label" 
+                            htmlFor="SecurityTestTitle">
+                            Title
+                        </label>
+                        <div className="col-8">
+                            <input
+                                type="text" 
+                                className="form-control"
+                                value={this.state.value}
+                                name="SecurityTestTitle"
+                                onChange={this.handleChangeEvent}
+                            />
                         </div>
-                    </>
-                }
+                    </div>
+
+                    <div className="form-group row mb-3">
+                        <label 
+                            className="col-4 col-form-label" 
+                            htmlFor="SecurityTestService">
+                            Service
+                        </label>
+                        <div className="col-8">
+                            <Form.Select 
+                                id="SecurityTestService" 
+                                name="SecurityTestService" 
+                                onChange={this.handleChangeEvent}
+                                defaultValue=""
+                            >
+                                <option value="" disabled>Select a service</option>
+                                {this.serviceListJSX()}
+                            </Form.Select>
+                        </div>
+                    </div>
+
+                    <div className="form-group row mb-3">
+                        <label 
+                            className="col-4 col-form-label" 
+                            htmlFor="SecurityTestTemplate">
+                            Template
+                        </label>
+                        <div className="col-8">
+                            <Form.Select
+                                id="SecurityTestTemplate"
+                                name="SecurityTestTemplate"
+                                onChange={this.handleChangeEvent}
+                                defaultValue=""
+                            >
+                                <option value="" disabled>Select a template</option>
+                                {Object.keys(this.props.templates).map((oid, i) => {
+                                    return <option key={i} value={oid}>{this.props.templates[oid].name}</option>
+                                })}
+                            </Form.Select>
+                        </div>
+                    </div>
+                </NewItemPopup>
             </>
         );
     }

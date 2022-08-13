@@ -30,7 +30,6 @@ class ReviewDetails extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        console.log(this.props.jiraIssue)
         if (!this.state.loaded && this.props.reviewLoaded) {
             this.setState({'loaded': true})
         }

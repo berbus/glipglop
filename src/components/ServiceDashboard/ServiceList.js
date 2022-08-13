@@ -22,7 +22,10 @@ class ServiceList extends React.Component {
                     ? <Loading />
                     : <>
                         <div className="row">
-                            <NewServicePopup />
+                            <div className="col-8"></div>
+                            <div className="col-4">
+                                <NewServicePopup />
+                            </div>
                         </div>
                         <div className="row mt-4">
                             {Object.keys(this.props.services).length === 0 

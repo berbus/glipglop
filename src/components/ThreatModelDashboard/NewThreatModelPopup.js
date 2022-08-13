@@ -1,11 +1,11 @@
 import React from 'react';
 
 import { Form }from 'react-bootstrap';
-import { Modal } from 'react-bootstrap/';
 import { connect } from 'react-redux';
 
 import { createThreatModel } from '../../actions/threatModel';
 import { getServices } from '../../actions/service';
+import { NewItemPopup } from '../Common';
 
 
 class NewThreatModelPopup extends React.Component {
@@ -16,11 +16,9 @@ class NewThreatModelPopup extends React.Component {
         const loaded = this.props.services !== undefined
         this.state = {
             loaded: loaded,
-            visible: false,
             ThreatModelTitle: '',
             ThreatModelService: '',
         }
-
 
         this.createNewThreatModel = this.createNewThreatModel.bind(this);
         this.handleChangeEvent = this.handleChangeEvent.bind(this);
@@ -37,10 +35,6 @@ class NewThreatModelPopup extends React.Component {
             this.setState({'loaded': true})
         }
     }
-
-    handleClick = () => {
-        this.setState({'visible': !this.state.visible});
-    };
 
     handleChangeEvent (event) {
         this.setState({[event.target.name]: event.target.value});
@@ -61,7 +55,6 @@ class NewThreatModelPopup extends React.Component {
                 'review': this.props.reviewId
             };
             this.props.createThreatModel(data, this.props.services !== undefined);
-            this.handleClick();
         }
     };
 
@@ -84,69 +77,48 @@ class NewThreatModelPopup extends React.Component {
     render() {
         return (
             <>
-                <button className="btn btn-primary" onClick={this.handleClick}>
-                    New threat model
-                </button>
-                {!this.state.loaded
-                    ? <></>
-                    : <>
+                <NewItemPopup 
+                    title="New threat model"
+                    loaded={this.state.loaded}
+                    createCallback={this.createNewThreatModel}
+                >
 
-                        <div className="row">
-                            <Modal show={this.state.visible} onHide={this.handleClick}>
-                                <Modal.Header closeButton>
-                                    <Modal.Title>New ThreatModel</Modal.Title>
-                                </Modal.Header>
-                                <Modal.Body>
-                                    <form>
-                                        <div className="form-group row mb-3">
-                                            <label 
-                                                className="col-4 col-form-label" 
-                                                htmlFor="ThreatModelTitle">
-                                                Title
-                                            </label>
-                                            <div className="col-8">
-                                                <input
-                                                    type="text" 
-                                                    className="form-control"
-                                                    value={this.state.value}
-                                                    name="ThreatModelTitle"
-                                                    onChange={this.handleChangeEvent}
-                                                />
-                                            </div>
-                                        </div>
-
-                                        <div className="form-group row mb-3">
-                                            <label 
-                                                className="col-4 col-form-label" 
-                                                htmlFor="ThreatModelService">
-                                                Service
-                                            </label>
-                                            <div className="col-8">
-                                                <Form.Select 
-                                                    id="ThreatModelService" 
-                                                    name="ThreatModelService" 
-                                                    onChange={this.handleChangeEvent}
-                                                    defaultValue=""
-                                                >
-                                                    <option value="" disabled>Select a service</option>
-                                                    {this.serviceListJSX()}
-                                                </Form.Select>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </Modal.Body>
-                                <Modal.Footer>
-                                    <button className="btn btn-danger" onClick={this.handleClick}>
-                                        Cancel
-                                    </button>
-                                    <button className="btn btn-success" onClick={this.createNewThreatModel}>
-                                        Create
-                                    </button>
-                                </Modal.Footer>
-                            </Modal>
+                    <div className="form-group row mb-3">
+                        <label 
+                            className="col-4 col-form-label" 
+                            htmlFor="ThreatModelTitle">
+                            Title
+                        </label>
+                        <div className="col-8">
+                            <input
+                                type="text" 
+                                className="form-control"
+                                value={this.state.value}
+                                name="ThreatModelTitle"
+                                onChange={this.handleChangeEvent}
+                            />
                         </div>
-                    </>
-                }
+                    </div>
+
+                    <div className="form-group row mb-3">
+                        <label 
+                            className="col-4 col-form-label" 
+                            htmlFor="ThreatModelService">
+                            Service
+                        </label>
+                        <div className="col-8">
+                            <Form.Select 
+                                id="ThreatModelService" 
+                                name="ThreatModelService" 
+                                onChange={this.handleChangeEvent}
+                                defaultValue=""
+                            >
+                                <option value="" disabled>Select a service</option>
+                                {this.serviceListJSX()}
+                            </Form.Select>
+                        </div>
+                    </div>
+                </NewItemPopup>
             </>
         );
     }
