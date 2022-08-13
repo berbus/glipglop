@@ -6,3 +6,4 @@ export { DetailsHeader } from './DetailsHeader';
 export { IconButton } from './IconButton';
 export { IconHashButton } from './IconHashButton';
 export { Icon } from './Icon';
+export { NewItemPopup } from './NewItemPopup';
