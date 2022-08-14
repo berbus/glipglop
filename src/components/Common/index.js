@@ -7,4 +7,4 @@ export { Loading } from './Loading';
 export { NewItemPopup } from './NewItemPopup';
 export { OnClickEditor } from './OnClickEditor';
 export { RichTextEditor } from './RichTextEditor';
-export { ServiceBadges } from './ServiceBadges';
+export { ItemBadges } from './ItemBadges';

@@ -8,7 +8,7 @@ import { getSecurityTestDetails, clearSecurityTestDetails, completeSecurityTest 
 import { getFindingsForSecurityTest, clearFindings } from '../../actions/finding';
 import Finding from "./Finding";
 import TestCaseList from "./TestCaseList";
-import { Loading, DetailsHeader, ServiceBadges } from '../Common';
+import { Loading, DetailsHeader, ItemBadges } from '../Common';
 
 
 class SecurityTestDetails extends React.Component {
@@ -84,7 +84,7 @@ class SecurityTestDetails extends React.Component {
                                             </p>
                                         </div>
                                         <div className="col-4">
-                                            <ServiceBadges services={this.props.services}/>
+                                            <ItemBadges items={this.props.services} type="service"/>
                                         </div>
                                         <div className="col-4">
                                             <p>Template: 

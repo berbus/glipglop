@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { getThreatModelDetails, clearThreatModelDetails, completeThreatModel } from '../../actions/threatModelDetails';
-import { Loading, DetailsHeader, ServiceBadges } from '../Common';
+import { Loading, DetailsHeader, ItemBadges } from '../Common';
 
 
 
@@ -74,7 +74,7 @@ class ThreatModelDetails extends React.Component {
                                 }
                                 {this.props.services !== undefined  &&
                                     <div className="col-4">
-                                        <ServiceBadges services={this.props.services}/>
+                                        <ItemBadges items={this.props.services} type="service"/>
                                     </div>
                                 }
                             </div>
