@@ -59,8 +59,12 @@ class SecurityTestDetails extends React.Component {
                                 </div>
                                 <div className="col-4">
                                     <p>Status:  
-                                        <span className={this.props.completionDate !== null ? "fw-bold text-success" : "fw-bold text-danger"}>
-                                            {this.props.completionDate !== null ? <> Completed on {this.props.completionDate}</> : <> In progress</>}
+                                        <span className={this.props.completionDate !== null 
+                                            ? "fw-bold text-success" 
+                                            : "fw-bold text-danger"}>
+                                            {this.props.completionDate !== null 
+                                                ? <> Completed on {this.props.completionDate}</> 
+                                                : <> In progress</>}
                                         </span>
                                     </p>
                                 </div>
@@ -68,7 +72,7 @@ class SecurityTestDetails extends React.Component {
                             </div>
 
                             <div className="row">
-                                {this.props.review !== undefined && this.props.service !== undefined && this.props.template !== undefined
+                                {this.props.review !== undefined && this.props.services !== undefined && this.props.template !== undefined
                                     ? <>
                                         <div className="col-4">
                                             <p>Review: {this.props.review !== null 
@@ -80,16 +84,26 @@ class SecurityTestDetails extends React.Component {
                                             </p>
                                         </div>
                                         <div className="col-4">
-                                            <p>Service: 
-                                                <Link to={"/services/" + this.props.service.oid}>
-                                                    <span className="fw-bold">{this.props.service.name}</span>
-                                                </Link>
-                                            </p>
+                                            Service(s): 
+                                                {Object.keys(this.props.services).length === 1
+                                                    ? <Link to={"/services/" + this.props.services[0].oid}>
+                                                        <span className="fw-bold"> {this.props.services[0].name}</span>
+                                                    </Link>
+                                                    :<ul>
+                                                        {Object.keys(this.props.services).map((idx) => (
+                                                            <li key={"srv-li-" + this.props.services[idx].oid}>
+                                                                <Link to={"/services/" + this.props.services[idx].oid}>
+                                                                    <span className="fw-bold"> {this.props.services[idx].name}</span>
+                                                                </Link>
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                }
                                         </div>
                                         <div className="col-4">
                                             <p>Template: 
                                                 <Link to={"/templates/" + this.props.template.oid}>
-                                                    <span className="fw-bold">{this.props.template.name}</span>
+                                                    <span className="fw-bold"> {this.props.template.name}</span>
                                                 </Link>
                                             </p>
                                         </div>
@@ -150,7 +164,7 @@ const mapStateToProps = (state) => ({
     completionDate: state.SecurityTestDetailsReducer.completionDate,
     template: state.SecurityTestDetailsReducer.template,
     review: state.SecurityTestDetailsReducer.review,
-    service: state.SecurityTestDetailsReducer.service,
+    services: state.SecurityTestDetailsReducer.services,
     securityTestLoaded: state.SecurityTestDetailsReducer.loaded,
     findingsLoaded: state.FindingReducer.loaded,
     findings: state.FindingReducer.findings

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { createReview } from '../../actions/review';
 import { getJiraIssues } from '../../actions/jiraIssue';
-import { NewItemPopup } from '../Common';
+import { NewItemPopup, DropdownSelect } from '../Common';
 
 
 class NewReviewPopup extends React.Component {
@@ -13,7 +13,7 @@ class NewReviewPopup extends React.Component {
         super(props)
         this.state = {
             reviewTitle: '',
-            reviewService: '',
+            reviewServices: '',
             reviewJiraIssue: undefined
         }
 
@@ -34,17 +34,17 @@ class NewReviewPopup extends React.Component {
 
     createNewReview () {
         let title = this.state.reviewTitle;
-        let service = this.state.reviewService;
+        let services = this.state.reviewServices;
         let jiraIssue = this.state.reviewJiraIssue;
 
         if (title.length === 0) { 
             console.error('Introduce a title')
-        } else if (service.length === 0) {
-            console.error('Select a service')
+        } else if (services.length === 0) {
+            console.error('Select at least one service')
         } else {
             let data = {
                 'title': title, 
-                'services': [service], 
+                'services': services, 
                 'jira_issue': jiraIssue,
                 'tests': []
             }
@@ -80,23 +80,17 @@ class NewReviewPopup extends React.Component {
                     <div className="form-group row mb-3">
                         <label 
                             className="col-4 col-form-label" 
-                            htmlFor="reviewService">
+                            htmlFor="reviewServices">
                             Service
                         </label>
                         <div className="col-8">
-                            <Form.Select 
-                                id="reviewService" 
-                                name="reviewService" 
-                                onChange={this.handleChangeEvent}
-                                defaultValue=""
-                            >
-                                <option value="" disabled>Select a service</option>
-                                {Object.keys(this.props.services).map((oid, i) => {
-                                    return <option key={"service-opt-" + oid} value={oid}>
-                                        {this.props.services[oid].name}
-                                    </option>
-                                })}
-                            </Form.Select>
+                            <DropdownSelect
+                                handleChange={this.handleChangeEvent}
+                                name="reviewServices" 
+                                options={Object.keys(this.props.services).map((oid, i) => (
+                                    {label: this.props.services[oid].name, value: oid}
+                                ))}
+                            />
                         </div>
                     </div>
 

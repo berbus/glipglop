@@ -1,11 +1,10 @@
 import React from 'react';
 
-import { Form }from 'react-bootstrap';
 import { connect } from 'react-redux';
 
 import { createThreatModel } from '../../actions/threatModel';
 import { getServices } from '../../actions/service';
-import { NewItemPopup } from '../Common';
+import { NewItemPopup, DropdownSelect } from '../Common';
 
 
 class NewThreatModelPopup extends React.Component {
@@ -17,7 +16,7 @@ class NewThreatModelPopup extends React.Component {
         this.state = {
             loaded: loaded,
             ThreatModelTitle: '',
-            ThreatModelService: '',
+            ThreatModelServices: []
         }
 
         this.createNewThreatModel = this.createNewThreatModel.bind(this);
@@ -42,32 +41,32 @@ class NewThreatModelPopup extends React.Component {
 
     createNewThreatModel = (event) => {
         let title = this.state.ThreatModelTitle;
-        let service = this.state.ThreatModelService;
+        let services = this.state.ThreatModelServices;
 
         if (title.length === 0) { 
             console.error('Introduce a title');
-        } else if (service.length === 0) {
-            console.error('Select a service');
+        } else if (services.length === 0) {
+            console.error('Select a services');
         } else {
             let data = {
                 'title': title, 
-                'service': service, 
+                'service': services, 
                 'review': this.props.reviewId
             };
             this.props.createThreatModel(data, this.props.services !== undefined);
         }
     };
 
-    serviceListJSX () {
+    getServicesList () {
         let res = []
 
         if (this.props.services !== undefined) {
             res = this.props.services.map((service) => (
-                <option key={"service-option-" + service.oid} value={service.oid}>{service.name}</option>
+                {label: service.name, value: service.oid}
             ));
         } else if (this.props.serviceListLoaded) {
             res = Object.keys(this.props.serviceList).map((oid) => (
-                <option key={"service-option-" + oid} value={oid}>{this.props.serviceList[oid].name}</option>
+                {label: this.props.serviceList[oid].name, value: oid}
             ))
         }
 
@@ -103,19 +102,15 @@ class NewThreatModelPopup extends React.Component {
                     <div className="form-group row mb-3">
                         <label 
                             className="col-4 col-form-label" 
-                            htmlFor="ThreatModelService">
+                            htmlFor="ThreatModelServices">
                             Service
                         </label>
                         <div className="col-8">
-                            <Form.Select 
-                                id="ThreatModelService" 
-                                name="ThreatModelService" 
-                                onChange={this.handleChangeEvent}
-                                defaultValue=""
-                            >
-                                <option value="" disabled>Select a service</option>
-                                {this.serviceListJSX()}
-                            </Form.Select>
+                            <DropdownSelect
+                                name="ThreatModelServices" 
+                                handleChange={this.handleChangeEvent}
+                                options={this.getServicesList()}
+                            />
                         </div>
                     </div>
                 </NewItemPopup>

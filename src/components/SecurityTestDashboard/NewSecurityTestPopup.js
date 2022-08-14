@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { createSecurityTest } from '../../actions/securityTest';
 import { getTemplates } from '../../actions/template';
 import { getServices } from '../../actions/service';
-import { NewItemPopup } from '../Common';
+import { NewItemPopup, DropdownSelect } from '../Common';
 
 
 class NewSecurityTestPopup extends React.Component {
@@ -18,7 +18,7 @@ class NewSecurityTestPopup extends React.Component {
         this.state = {
             loaded: loaded,
             SecurityTestTitle: '',
-            SecurityTestService: '',
+            SecurityTestServices: '',
             SecurityTestTemplate: ''
         }
 
@@ -38,7 +38,6 @@ class NewSecurityTestPopup extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (!this.state.loaded && this.props.serviceListLoaded) {
-            console.log('yeahhhh')
             this.setState({'loaded': true})
         }
     }
@@ -49,20 +48,20 @@ class NewSecurityTestPopup extends React.Component {
 
     createNewSecurityTest () {
         let title = this.state.SecurityTestTitle;
-        let service = this.state.SecurityTestService;
+        let services = this.state.SecurityTestServices;
         let template = this.state.SecurityTestTemplate;
 
         if (title.length === 0) { 
             console.error('Introduce a title');
-        } else if (service.length === 0) {
-            console.error('Select a service');
+        } else if (services.length === 0) {
+            console.error('Select at least one service');
         } else if (template.length === 0) {
             console.error('Select a template');
         } else {
             let data = {
                 'title': title, 
                 'template': template,
-                'service': service, 
+                'services': services, 
                 'jira_ticket': this.props.jiraTicket,
                 'review': this.props.reviewId
             };
@@ -70,21 +69,22 @@ class NewSecurityTestPopup extends React.Component {
         }
     };
 
-    serviceListJSX () {
+    getServicesList () {
         let res = []
 
         if (this.props.services !== undefined) {
             res = this.props.services.map((service) => (
-                <option key={"service-option-" + service.oid} value={service.oid}>{service.name}</option>
+                {label: service.name, value: service.oid}
             ));
         } else if (this.props.serviceListLoaded) {
             res = Object.keys(this.props.serviceList).map((oid) => (
-                <option key={"service-option-" + oid} value={oid}>{this.props.serviceList[oid].name}</option>
+                {label: this.props.serviceList[oid].name, value: oid}
             ))
         }
 
         return res;
     }
+
 
     render() {
         return (
@@ -114,19 +114,15 @@ class NewSecurityTestPopup extends React.Component {
                     <div className="form-group row mb-3">
                         <label 
                             className="col-4 col-form-label" 
-                            htmlFor="SecurityTestService">
-                            Service
+                            htmlFor="SecurityTestServices">
+                            Service(s)
                         </label>
                         <div className="col-8">
-                            <Form.Select 
-                                id="SecurityTestService" 
-                                name="SecurityTestService" 
-                                onChange={this.handleChangeEvent}
-                                defaultValue=""
-                            >
-                                <option value="" disabled>Select a service</option>
-                                {this.serviceListJSX()}
-                            </Form.Select>
+                            <DropdownSelect
+                                name="SecurityTestServices" 
+                                handleChange={this.handleChangeEvent}
+                                options={this.getServicesList()}
+                            />
                         </div>
                     </div>
 

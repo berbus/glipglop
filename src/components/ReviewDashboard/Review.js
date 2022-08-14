@@ -43,7 +43,7 @@ class Review extends React.Component {
                 <div className="row py-0">
                     <p className="m-0">
                     {this.props.services.map(service => (
-                        <span className="mr-1">{service}</span>
+                        <span className="mr-1"> {service} </span>
                     ))}
                     </p>
                 </div>
