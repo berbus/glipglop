@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { getReviewDetails, clearReviewDetails, completeReview } from '../../actions/reviewDetails';
-import { Loading, DetailsHeader } from '../Common';
+import { Loading, DetailsHeader, ServiceBadges } from '../Common';
 import NewSecurityTestPopup from '../SecurityTestDashboard/NewSecurityTestPopup';
 import NewThreatModelPopup from '../ThreatModelDashboard/NewThreatModelPopup';
 
@@ -87,16 +87,8 @@ class ReviewDetails extends React.Component {
 
                         <div className="row">
                             <div className="col-4">
-                                <h3>Service(s)</h3>
-                                <ul>
-                                    {this.props.services.map((service) => (
-                                        <li key={"service-" + service.oid}>
-                                            <Link to={"/services/" + service.oid}>
-                                                {service.name}
-                                            </Link>
-                                        </li>
-                                    ))}
-                                </ul>
+                                <h3>Service</h3>
+                                <ServiceBadges lineBreak={true} services={this.props.services}/>
                             </div>
                             <div className="col-4">
                                 <div className="row">

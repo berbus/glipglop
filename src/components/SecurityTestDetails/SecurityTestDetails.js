@@ -8,7 +8,7 @@ import { getSecurityTestDetails, clearSecurityTestDetails, completeSecurityTest 
 import { getFindingsForSecurityTest, clearFindings } from '../../actions/finding';
 import Finding from "./Finding";
 import TestCaseList from "./TestCaseList";
-import { Loading, DetailsHeader } from '../Common';
+import { Loading, DetailsHeader, ServiceBadges } from '../Common';
 
 
 class SecurityTestDetails extends React.Component {
@@ -84,21 +84,7 @@ class SecurityTestDetails extends React.Component {
                                             </p>
                                         </div>
                                         <div className="col-4">
-                                            Service(s): 
-                                                {Object.keys(this.props.services).length === 1
-                                                    ? <Link to={"/services/" + this.props.services[0].oid}>
-                                                        <span className="fw-bold"> {this.props.services[0].name}</span>
-                                                    </Link>
-                                                    :<ul>
-                                                        {Object.keys(this.props.services).map((idx) => (
-                                                            <li key={"srv-li-" + this.props.services[idx].oid}>
-                                                                <Link to={"/services/" + this.props.services[idx].oid}>
-                                                                    <span className="fw-bold"> {this.props.services[idx].name}</span>
-                                                                </Link>
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                }
+                                            <ServiceBadges services={this.props.services}/>
                                         </div>
                                         <div className="col-4">
                                             <p>Template: 

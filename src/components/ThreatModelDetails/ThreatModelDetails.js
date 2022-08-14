@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { getThreatModelDetails, clearThreatModelDetails, completeThreatModel } from '../../actions/threatModelDetails';
-import { Loading, DetailsHeader } from '../Common';
+import { Loading, DetailsHeader, ServiceBadges } from '../Common';
 
 
 
@@ -61,26 +61,21 @@ class ThreatModelDetails extends React.Component {
                             </div>
 
                             <div className="row">
-                                {this.props.review !== undefined && this.props.service !== undefined 
-                                    ? <>
-                                        <div className="col-4">
-                                            <p>Review: {this.props.review !== null 
-                                                ? <Link to={"/reviews/" + this.props.review.oid}>
-                                                    <span className="fw-bold">{this.props.review.title}</span>
-                                                </Link>
-                                                : <>N/A</>
-                                                }
-                                            </p>
-                                        </div>
-                                        <div className="col-4">
-                                            <p>Service: 
-                                                <Link to={"/services/" + this.props.service.oid}>
-                                                    <span className="fw-bold">{this.props.service.name}</span>
-                                                </Link>
-                                            </p>
-                                        </div>
-                                    </>
-                                    :<></>
+                                {this.props.review !== undefined &&
+                                <div className="col-4">
+                                    <p>Review: {this.props.review !== null 
+                                        ? <Link to={"/reviews/" + this.props.review.oid}>
+                                            <span className="fw-bold">{this.props.review.title}</span>
+                                        </Link>
+                                        : <>N/A</>
+                                        }
+                                    </p>
+                                </div>
+                                }
+                                {this.props.services !== undefined  &&
+                                    <div className="col-4">
+                                        <ServiceBadges services={this.props.services}/>
+                                    </div>
                                 }
                             </div>
                             <div className="row">
@@ -104,7 +99,7 @@ const mapStateToProps = (state) => ({
     creationDate: state.ThreatModelDetailsReducer.creationDate,
     completionDate: state.ThreatModelDetailsReducer.completionDate,
     review: state.ThreatModelDetailsReducer.review,
-    service: state.ThreatModelDetailsReducer.service,
+    services: state.ThreatModelDetailsReducer.services,
     threatModelLoaded: state.ThreatModelDetailsReducer.loaded,
 });
 

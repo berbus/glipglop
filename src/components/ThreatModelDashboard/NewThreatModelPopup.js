@@ -50,7 +50,7 @@ class NewThreatModelPopup extends React.Component {
         } else {
             let data = {
                 'title': title, 
-                'service': services, 
+                'services': services, 
                 'review': this.props.reviewId
             };
             this.props.createThreatModel(data, this.props.services !== undefined);
