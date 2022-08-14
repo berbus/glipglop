@@ -27,10 +27,10 @@ class Finding extends React.Component {
         this.updateFindingTitle = this.updateFindingTitle.bind(this);
         this.updateFindingDescription = this.updateFindingDescription.bind(this);
         this.handleFindingChange = this.handleFindingChange.bind(this);
-        this.toogleEvent = this.toogleEvent.bind(this);
+        this.toggleEvent = this.toggleEvent.bind(this);
     }
 
-    toogleEvent () {
+    toggleEvent () {
         this.setState({collapsed: !this.state.collapsed});
     }
 
@@ -63,7 +63,7 @@ class Finding extends React.Component {
     render () {
         return (
             <Accordion.Item eventKey={"findingN" + this.props.findingIndex}>
-                <Accordion.Header onClick={this.toogleEvent}>
+                <Accordion.Header onClick={this.toggleEvent}>
                     <div className="row">
                         <div className="col-1">
                             F#{this.props.findingIndex}

@@ -2,8 +2,8 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 import { IconContext } from "react-icons";
-import { MdPlaylistAdd } from "react-icons/md";
-import { Form }from 'react-bootstrap';
+import { MdPlaylistAdd } from 'react-icons/md';
+import { Form } from 'react-bootstrap';
 import { ImCheckboxUnchecked, ImCheckboxChecked } from 'react-icons/im';
 
 import { updateTestCase } from '../../actions/testCase';
