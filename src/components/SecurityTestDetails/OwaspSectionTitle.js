@@ -1,6 +1,10 @@
 import React from 'react';
 
 import { connect } from 'react-redux';
+import { IconContext } from "react-icons";
+import Button from 'react-bootstrap/Button';
+import { BiSelectMultiple } from 'react-icons/bi';
+import { MdOutlineExpandMore, MdOutlineExpandLess } from 'react-icons/md';
 
 import { OWASP_SECTIONS } from '../../constants';
 
@@ -8,22 +12,51 @@ import { OWASP_SECTIONS } from '../../constants';
 class OwaspSectionTitle  extends React.Component {
     constructor (props) {
         super(props)
-        this.handleClick = this.handleClick.bind(this);
+
+        this.state = {
+            visible: false
+        }
+
+        this.handleSelectAll = this.handleSelectAll.bind(this);
+        this.toggleVisible = this.toggleVisible.bind(this);
+    }
+
+    toggleVisible () {
+        this.setState({visible: !this.state.visible});
+        this.props.toggleVisibleCallback(this.props.section);
     }
 
 
-    handleClick () {
-        this.props.clickListener(this.props.section);
+    handleSelectAll () {
+        this.props.selectAllClickCallback(this.props.section);
     }
 
     render () {
         return (
-            <tr onClick={this.handleClick} className={`${this.props.selected ? "selected" : ""}`}>
-                <td className="py-3"></td>
-                <td colSpan="4" className="py-3">
-                    Section {this.props.section} - {OWASP_SECTIONS[this.props.section-1]}
-                </td>
-            </tr>
+            <div className={this.props.selected ? "row p-2 selected" : "row p-2"}>
+                <div className="col-10">
+                    <h4 onClick={this.handleSelectAll}>
+                        Section {this.props.section} - {OWASP_SECTIONS[this.props.section-1]}
+                    </h4>
+                </div>
+                <div className="col-2">
+                    <Button className="me-2" onClick={this.handleSelectAll}>
+                        <IconContext.Provider value={{ size: "1.5em" }}>
+                            <BiSelectMultiple />
+                        </IconContext.Provider>
+                    </Button>
+                    <Button
+                        onClick={this.toggleVisible}
+                        aria-expanded={this.props.visible}>
+                        <IconContext.Provider value={{ size: "1.5em" }}>
+                            {this.props.visible
+                                ? <MdOutlineExpandLess />
+                                : <MdOutlineExpandMore />
+                            }
+                        </IconContext.Provider>
+                    </Button>
+                </div>
+            </div>
         );
     }
 

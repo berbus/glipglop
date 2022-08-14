@@ -1,11 +1,9 @@
 import React from 'react';
 
-import { NavHashLink } from 'react-router-hash-link';
 import { connect } from 'react-redux';
-import { IconContext } from "react-icons";
 import { AiOutlineExperiment } from "react-icons/ai";
 import { FaTrash } from 'react-icons/fa';
-import { Button, ButtonGroup, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { ButtonGroup } from 'react-bootstrap';
 
 import { deleteFinding } from '../../actions/finding';
 import { IconButton, IconHashButton } from '../Common';

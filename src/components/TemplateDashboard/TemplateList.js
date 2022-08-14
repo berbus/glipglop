@@ -18,29 +18,32 @@ class TemplateList extends React.Component {
     render () {
         return (
             <>
-                    {!this.props.templatesLoaded
-                        ? <Loading />
-                        : <>
-                            <div className="row">
+                {!this.props.templatesLoaded
+                    ? <Loading />
+                    : <>
+                        <div className="row">
+                            <div className="col-8"></div>
+                            <div className="col-4">
                                 <NewTemplatePopup />
                             </div>
-                            <div className="row mt-4">
-                                {Object.keys(this.props.templates).length === 0 
-                                    ? <p>No templates found</p>
-                                    : <ul className="list-group">
-                                        {Object.keys(this.props.templates).map((oid, index) => ( 
-                                            <li key={oid} className="list-group-item">
-                                                <Template 
-                                                    id={oid} 
-                                                    name={this.props.templates[oid].name} 
-                                                />
-                                            </li>
-                                        ))}
-                                    </ul>
-                                }
-                            </div>
-                        </>
-                    }
+                        </div>
+                        <div className="row mt-4">
+                            {Object.keys(this.props.templates).length === 0 
+                                ? <p>No templates found</p>
+                                : <ul className="list-group">
+                                    {Object.keys(this.props.templates).map((oid, index) => ( 
+                                        <li key={oid} className="list-group-item">
+                                            <Template 
+                                                id={oid} 
+                                                name={this.props.templates[oid].name} 
+                                            />
+                                        </li>
+                                    ))}
+                                </ul>
+                            }
+                        </div>
+                    </>
+                }
             </>
         );
     }

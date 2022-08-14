@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { connect } from 'react-redux';
+import Collapse from 'react-bootstrap/Collapse';
 
 import { Loading } from '../Common';
 import TestCase from "./TestCase";
@@ -16,10 +17,12 @@ class TestCaseList extends React.Component {
 
         this.state = {
             loaded: this.props.testCasesLoaded,
-            testCaseSelection: {}
+            testCaseSelection: {},
+            visibleSections: Array(14).fill(false)
         }
 
         this.createFinding = this.createFinding.bind(this);
+        this.toggleSection = this.toggleSection.bind(this);
         this.handleSectionClick = this.handleSectionClick.bind(this);
         this.updateSelectedTCCallback = this.updateSelectedTCCallback.bind(this);
         this.bulkEdit = this.bulkEdit.bind(this);
@@ -87,8 +90,15 @@ class TestCaseList extends React.Component {
         this.clearSelected();
     }
 
+    toggleSection (sectionId) {
+        let aux = this.state.visibleSections;
+        aux[sectionId] = !aux[sectionId];
+        this.setState({visibleSections: aux});
+    }
+
     render () {
         let listItems = [];
+        let tmpListItems = [];
         let prevSection = 0;
 
         if (Object.keys(this.state.testCaseSelection).length !== 0) {
@@ -96,17 +106,36 @@ class TestCaseList extends React.Component {
                 let section = this.props.testCases[oid].requirement.owasp_section;
 
                 if (prevSection < section) {
+
+                    if (prevSection !== 0) {
+                        listItems.push(
+                            <div>
+                                <Collapse in={this.state.visibleSections[prevSection]}>
+                                    <table className="table table-sm">
+                                        <tbody>
+                                            {tmpListItems}
+                                        </tbody>
+                                    </table>
+                                </Collapse>
+                            </div>
+                        );
+                        tmpListItems = [];
+                    }
+
                     listItems.push(<OwaspSectionTitle 
                         key={"owasp-section-" + section}
-                        clickListener={this.handleSectionClick} 
+                        selectAllClickCallback={this.handleSectionClick} 
+                        toggleVisibleCallback={this.toggleSection}
                         selected={Object.values(this.state.testCaseSelection)
-                            .filter(v => v.section === section)
-                            .some(v => v.selected === true)}
+                                .filter(v => v.section === section)
+                                .some(v => v.selected === true)}
+                        visible={this.state.visibleSections[section]}
                         section={section}/>);
-                    prevSection++;
-                }
 
-                listItems.push(<TestCase 
+                    prevSection = section
+                } 
+
+                tmpListItems.push(<TestCase 
                     key={oid}
                     testId={oid} 
                     creationDate={this.props.testCases[oid].creation_date}
@@ -117,36 +146,23 @@ class TestCaseList extends React.Component {
                     selected={this.state.testCaseSelection[oid].selected}
                     updateSelectedCallback={this.updateSelectedTCCallback}
                     bulkEditCallback={this.bulkEdit}
-                    />);
+                />);
             });
         }
 
         return (
             <>
-            {!this.state.loaded
-                ? <Loading />
-                : <>
-                <h2>Test cases</h2>
-                <table className="table table-sm">
-                    <thead>
-                        <tr>
-                        <th scope="col-1"></th>
-                        <th scope="col-1">Requirement</th>
-                        <th scope="col-2">Status</th>
-                        <th scope="col-6">Description</th>
-                        <th scope="col-2">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                {!this.state.loaded
+                    ? <Loading />
+                    : <>
+                        <h2>Test cases</h2>
                         {listItems}
-                    </tbody>
-                </table>
-                {Object.values(this.state.testCaseSelection).every(v => v.selected === false) 
-                    ? <></>
-                    : <FloatingButton action={this.clearSelected}/>
+                        {Object.values(this.state.testCaseSelection).every(v => v.selected === false) 
+                            ? <></>
+                            : <FloatingButton action={this.clearSelected}/>
+                        }
+                    </>
                 }
-                </>
-            }
             </>
         );
     }

@@ -1,10 +1,9 @@
 import React from 'react';
 
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import { getReviewDetails, clearReviewDetails, completeReview } from '../../actions/reviewDetails';
-import { Loading, DetailsHeader } from '../Common';
+import { Loading, DetailsHeader, ItemBadges } from '../Common';
 import NewSecurityTestPopup from '../SecurityTestDashboard/NewSecurityTestPopup';
 import NewThreatModelPopup from '../ThreatModelDashboard/NewThreatModelPopup';
 
@@ -30,7 +29,6 @@ class ReviewDetails extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        console.log(this.props.jiraIssue)
         if (!this.state.loaded && this.props.reviewLoaded) {
             this.setState({'loaded': true})
         }
@@ -88,31 +86,18 @@ class ReviewDetails extends React.Component {
 
                         <div className="row">
                             <div className="col-4">
-                                <h3>Service(s)</h3>
-                                <ul>
-                                    {this.props.services.map((service) => (
-                                        <li key={"service-" + service.oid}>
-                                            <Link to={"/services/" + service.oid}>
-                                                {service.name}
-                                            </Link>
-                                        </li>
-                                    ))}
-                                </ul>
+                                <div className="row">
+                                    <h3>Service</h3>
+                                    <ItemBadges lineBreak={true} items={this.props.services} type="service"/>
+                                </div>
                             </div>
+
                             <div className="col-4">
                                 <div className="row">
                                     <h3>Threat Model</h3>
-                                    <ul>
-                                        {this.props.threatModels.map((tm, oid) => (
-                                            <li key={"tm-" + oid}>
-                                                <Link to={"/threat-models/" + tm.oid}>
-                                                    {tm.title}
-                                                </Link>
-                                            </li>
-                                        ))}
-                                    </ul>
+                                    <ItemBadges lineBreak={true} items={this.props.threatModels} type="tm"/>
                                 </div>
-                                <div className="row">
+                                <div className="row mt-3">
                                     <div className="col-8">
                                         <NewThreatModelPopup 
                                             services={this.props.services}
@@ -120,23 +105,15 @@ class ReviewDetails extends React.Component {
                                         />
                                     </div>
                                     <div className="col-4"></div>
-                            </div>
+                                </div>
                             </div>
 
                             <div className="col-4">
                                 <div className="row">
                                     <h3>Security Test</h3>
-                                    <ul>
-                                        {this.props.securityTests.map((st, oid) => (
-                                            <li key={"st-" + oid}>
-                                                <Link to={"/security-tests/" + st.oid}>
-                                                    {st.title}
-                                                </Link>
-                                            </li>
-                                        ))}
-                                    </ul>
+                                    <ItemBadges lineBreak={true} items={this.props.securityTests} type="st"/>
                                 </div>
-                                <div className="row">
+                                <div className="row mt-3">
                                     <div className="col-8">
                                         <NewSecurityTestPopup 
                                             services={this.props.services}
@@ -146,8 +123,9 @@ class ReviewDetails extends React.Component {
                                     <div className="col-4"></div>
                                 </div>
                             </div>
-                    </div>
-            </>
+
+                        </div>
+                    </>
                 }
             </>
         );

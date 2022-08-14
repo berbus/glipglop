@@ -41,20 +41,23 @@ class ReviewList extends React.Component {
                     ? <Loading />
                     : <>
                         <div className="row">
-                            <NewReviewPopup
-                                services={this.props.services}
-                                templates={this.props.templates} 
-                            />
+                            <div className="col-8"></div>
+                            <div className="col-4">
+                                <NewReviewPopup
+                                    services={this.props.services}
+                                    templates={this.props.templates} 
+                                />
+                            </div>
                         </div>
                         <div className="row mt-4">
                             {this.props.reviews.length === 0 
                                 ? <p>No reviews found</p>
                                 : <ul className="list-group">
                                     {this.props.reviews.map(review => (
-                                        <li className="list-group-item" key={review.oid}>
+                                        <li className="list-group-item" key={"review-li-" + review.oid}>
                                             <Review 
                                                 id={review.oid} 
-                                                key={review.oid} 
+                                                key={"review-" + review.oid} 
                                                 title={review.title} 
                                                 creation_date={review.creation_date}
                                                 services={review.services.map(soid => (

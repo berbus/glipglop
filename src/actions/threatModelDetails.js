@@ -13,7 +13,7 @@ import {
 
 export const getThreatModelDetails = (threatModelId) => (dispatch, getState) => {
     axios
-        .get(`/api/threat_model/${threatModelId}`, HTTP_CONF)
+        .get(`/api/threat_model/${threatModelId}/`, HTTP_CONF)
         .then((res) => {
             dispatch({
                 type: GET_THREAT_MODEL_DETAILS,

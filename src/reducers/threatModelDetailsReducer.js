@@ -10,7 +10,7 @@ const initialThreatModelDetails = {
     title: null,
     creationDate: null,
     completion_date: null,
-    service: null,
+    services: [],
     review: null,
     loaded: false,
 }
@@ -26,7 +26,7 @@ export default function ThreatModelDetailsReducer (state = initialState, action)
                 oid: action.payload.oid,
                 title: action.payload.title,
                 creationDate: action.payload.creation_date,
-                service: action.payload.service,
+                services: action.payload.services,
                 review: action.payload.review,
                 completionDate: action.payload.completion_date,
                 loaded: true
