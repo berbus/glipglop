@@ -103,7 +103,7 @@ class TestCaseList extends React.Component {
                             .filter(v => v.section === section)
                             .some(v => v.selected === true)}
                         section={section}/>);
-                    prevSection++;
+                    prevSection = section
                 }
 
                 listItems.push(<TestCase 
