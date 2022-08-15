@@ -32,7 +32,7 @@ export class NewItemPopup extends React.Component {
                 </button>
                 {(this.props.loaded === undefined || this.props.loaded) && 
                 <div className="row">
-                    <Modal show={this.state.visible} onHide={this.handleClick}>
+                    <Modal show={this.state.visible} onHide={this.handleClick} dialogClassName="modal-50w">
                         <Modal.Header closeButton>
                             <Modal.Title>{this.props.title}</Modal.Title>
                         </Modal.Header>
