@@ -13,7 +13,7 @@ import {
 
 export const getSecurityTestDetails = (securityTestId) => (dispatch, getState) => {
     axios
-        .get(`/api/security_test/${securityTestId}`, HTTP_CONF)
+        .get(`/api/security_test/${securityTestId}/`, HTTP_CONF)
         .then((res) => {
             dispatch({
                 type: GET_SECURITY_TEST_DETAILS,
