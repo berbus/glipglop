@@ -23,7 +23,6 @@ class FindingToolbar extends React.Component {
     render () {
         return (
             <ButtonGroup>
-                <IconHashButton tooltip="Got to test case" to={"#" + this.props.testCase} icon={<AiOutlineExperiment/>}/>
                 <IconButton tooltip="Delete finding" onClick={this.deleteFinding} icon={<FaTrash/>} />
             </ButtonGroup>
         )

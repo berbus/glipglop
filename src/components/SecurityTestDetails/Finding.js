@@ -115,6 +115,16 @@ class Finding extends React.Component {
                                 />
                             </div>
                         </div>
+
+                        <div className="row p-3">
+                            <div className="col-1">
+                                <p>Test case</p>
+                            </div>
+                            <div className="col-11">
+                                <p>{this.props.testCase.name}</p>
+                            </div>
+                        </div>
+                        
                         <form className="pt-2">
                             <div className="row p-3">
                                 <div className="col-1"></div>
@@ -147,7 +157,7 @@ class Finding extends React.Component {
                                 </div>
                                 <div className="col-1"></div>
                                 <div className="col-4">
-                                    <FindingToolbar testCase={this.props.testCase} findingId={this.props.findingId} />
+                                    <FindingToolbar findingId={this.props.findingId} />
                                 </div>
                             </div>
                         </form>
