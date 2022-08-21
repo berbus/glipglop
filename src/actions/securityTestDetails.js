@@ -7,7 +7,9 @@ import { handleActionError } from '../utils';
 import { 
     GET_SECURITY_TEST_DETAILS,
     CLEAR_SECURITY_TEST_DETAILS,
-    COMPLETE_SECURITY_TEST
+    COMPLETE_SECURITY_TEST,
+    LOADING_SECURITY_TEST_HTML_REPORT,
+    LOADED_SECURITY_TEST_HTML_REPORT
 } from './types';
 
 
@@ -45,6 +47,23 @@ export const completeSecurityTest = (securityTestId) => (dispatch, getState) => 
         })
         .catch((err) => {
             handleActionError(err, tid);
+        });
+};
+
+
+export const getSecurityTestHTMLReport = (securityTestId) => (dispatch, getState) => {
+    dispatch({type: LOADING_SECURITY_TEST_HTML_REPORT});
+
+    axios
+        .get(`/api/security_test/${securityTestId}/html_report/`, HTTP_CONF)
+        .then((res) => {
+            dispatch({
+                type: LOADED_SECURITY_TEST_HTML_REPORT,
+                payload: res.data
+            });
+        })
+        .catch((err) => {
+            handleActionError(err, null);
         });
 };
 

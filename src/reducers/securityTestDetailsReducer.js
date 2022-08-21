@@ -1,7 +1,9 @@
 import { 
     GET_SECURITY_TEST_DETAILS,
     CLEAR_SECURITY_TEST_DETAILS,
-    COMPLETE_SECURITY_TEST
+    COMPLETE_SECURITY_TEST,
+    LOADING_SECURITY_TEST_HTML_REPORT,
+    LOADED_SECURITY_TEST_HTML_REPORT
 } from '../actions/types.js';
 
 
@@ -15,6 +17,8 @@ const initialSecurityTestDetails = {
     review: null,
     testCases: [],
     loaded: false,
+    loadingHTMLReport: false,
+    reportHTML: ''
 }
 
 const initialState = initialSecurityTestDetails;
@@ -41,6 +45,17 @@ export default function SecurityTestDetailsReducer (state = initialState, action
             return {
                 ...state,
                 completionDate: action.payload.completion_date
+            };
+        case LOADING_SECURITY_TEST_HTML_REPORT:
+            return {
+                ...state,
+                loadingHTMLReport: true
+            };
+        case LOADED_SECURITY_TEST_HTML_REPORT:
+            return {
+                ...state,
+                loadingHTMLReport: false,
+                reportHTML: action.payload
             };
         default:
             return state;

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Accordion } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 
-import { getSecurityTestDetails, clearSecurityTestDetails, completeSecurityTest } from '../../actions/securityTestDetails';
+import { getSecurityTestDetails, clearSecurityTestDetails, completeSecurityTest, getSecurityTestHTMLReport } from '../../actions/securityTestDetails';
 import { getFindingsForSecurityTest, clearFindings } from '../../actions/finding';
 import Finding from "./Finding";
 import TestCaseList from "./TestCaseList";
@@ -21,6 +21,7 @@ class SecurityTestDetails extends React.Component {
         }
 
         this.completeSecurityTest = this.completeSecurityTest.bind(this);
+        this.copyReport = this.copyReport.bind(this);
     }
 
     componentDidMount () {
@@ -36,10 +37,23 @@ class SecurityTestDetails extends React.Component {
         this.props.clearSecurityTestDetails();
     }
 
+    async updateClipboard () {
+    }
+
     componentDidUpdate(prevProps) {
         if (!this.state.loaded && this.props.securityTestLoaded && this.props.findingsLoaded) {
             this.setState({'loaded': true})
         }
+
+        if (prevProps.loadingHTMLReport && !this.props.loadingHTMLReport) {
+            let blob = new window.Blob([this.props.reportHTML], {type: 'text/html'});
+            let cpit = new window.ClipboardItem({'text/html': blob})
+            navigator.clipboard.write([cpit,]);
+        }
+    }
+
+    copyReport () {
+        this.props.getSecurityTestHTMLReport(this.props.securityTestId);
     }
 
     completeSecurityTest () {
@@ -104,6 +118,14 @@ class SecurityTestDetails extends React.Component {
                                         : <></>
                                     }
                                 </div>
+                                <div className="col-4">
+                                    <button className="btn btn-success align-top" onClick={this.copyReport}>
+                                        {this.props.loadingHTMLReport
+                                            ? <Loading/>
+                                            : <>Copy report to clipboard</>
+                                        }
+                                    </button>
+                                </div>
                             </div>
                         </DetailsHeader>
 
@@ -124,7 +146,7 @@ class SecurityTestDetails extends React.Component {
                                                     evidence={finding.evidence}
                                                     status={finding.status}
                                                     impact={finding.impact}
-                                                    testCase={finding.test_case}
+                                                    testCase={finding.test_case_data}
                                                     findingIndex={index}
                                                 />
                                             ))}
@@ -153,7 +175,9 @@ const mapStateToProps = (state) => ({
     services: state.SecurityTestDetailsReducer.services,
     securityTestLoaded: state.SecurityTestDetailsReducer.loaded,
     findingsLoaded: state.FindingReducer.loaded,
-    findings: state.FindingReducer.findings
+    findings: state.FindingReducer.findings,
+    loadingHTMLReport: state.SecurityTestDetailsReducer.loadingHTMLReport,
+    reportHTML: state.SecurityTestDetailsReducer.reportHTML
 });
 
 export default connect(mapStateToProps, {
@@ -161,5 +185,6 @@ export default connect(mapStateToProps, {
     clearSecurityTestDetails,
     clearFindings,
     getFindingsForSecurityTest,
-    completeSecurityTest
+    completeSecurityTest,
+    getSecurityTestHTMLReport 
 })(SecurityTestDetails);
