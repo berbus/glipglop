@@ -10,6 +10,7 @@ import TestCaseReducer from './testCaseReducer';
 import FindingReducer from './findingReducer';
 import AuthReducer from './authReducer';
 import JiraTransitionReducer from './jiraTransitionReducer';
+import JiraAuthReducer from './jiraAuthReducer';
 import JiraIssueReducer from './jiraIssueReducer';
 import SecurityTestReducer from './securityTestReducer';
 import SecurityTestDetailsReducer from './securityTestDetailsReducer';
@@ -28,6 +29,7 @@ export default combineReducers({
     FindingReducer,
     AuthReducer,
     JiraTransitionReducer,
+    JiraAuthReducer,
     JiraIssueReducer,
     SecurityTestReducer,
     SecurityTestDetailsReducer,

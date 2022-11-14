@@ -28,7 +28,6 @@ class JiraTransition extends React.Component {
         this.clearChanges = this.clearChanges.bind(this);
         this.toggleEdit = this.toggleEdit.bind(this);
         this.deleteTransition = this.deleteTransition.bind(this);
-        this.handleChangeEvent = this.handleChangeEvent.bind(this);
     }
 
     componentDidUpdate(prevProps) {
@@ -68,10 +67,6 @@ class JiraTransition extends React.Component {
         this.props.deleteJiraTransition(this.props.transitionId);
     }
 
-    handleChangeEvent (event) {
-        this.setState({[event.target.name]: event.target.value});
-    }
-
     render () {
         return (
             <>
@@ -83,7 +78,6 @@ class JiraTransition extends React.Component {
                                 <Form.Select
                                     id="garrettAction"
                                     name="newTransitionAction"
-                                    onChange={this.handleChangeEvent}
                                     value={this.state.garrettAction}>
                                     {this.props.garrettActions.map((value, i) => {
                                         return <option key={i} value={value}>{value}</option>
@@ -96,7 +90,6 @@ class JiraTransition extends React.Component {
                                 <Form.Select
                                     id="newTransitionName"
                                     name="newTransitionName"
-                                    onChange={this.handleChangeEvent}
                                     value={this.state.newTransitionName}>
                                     {this.props.jiraStatuses.map((value, i) => {
                                         return <option key={i} value={value}>{value}</option>
@@ -110,7 +103,6 @@ class JiraTransition extends React.Component {
                                 className="form-control"
                                 value={this.state.newTransitionAlias}
                                 name="newTransitionAlias"
-                                onChange={this.handleChangeEvent}
                             />
                         </td>
                         <td>

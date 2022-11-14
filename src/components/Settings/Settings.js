@@ -13,6 +13,7 @@ import {
 } from '../../actions/jiraTransition';
 import { Loading } from '../Common';
 import JiraTransition from './JiraTransition';
+import JiraConfig from './JiraConfig';
 
 
 class Settings extends React.Component {
@@ -148,6 +149,8 @@ class Settings extends React.Component {
                 </table>
             </>
             }
+                <h2>Jira authentication config</h2>
+                <JiraConfig />
             </>
         );
     }
