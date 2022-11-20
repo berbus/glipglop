@@ -1,12 +1,11 @@
 import React from 'react';
 
 import { connect } from 'react-redux';
-import { AiOutlineExperiment } from "react-icons/ai";
 import { FaTrash } from 'react-icons/fa';
 import { ButtonGroup } from 'react-bootstrap';
 
 import { deleteFinding } from '../../actions/finding';
-import { IconButton, IconHashButton } from '../Common';
+import { IconButton } from '../Common';
 
 
 class FindingToolbar extends React.Component {

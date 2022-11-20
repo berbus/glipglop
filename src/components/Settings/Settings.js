@@ -60,7 +60,8 @@ class Settings extends React.Component {
         this.setState({creatingTransition: true});
 
         const data = {
-            'transition_name': this.state.newTransitionName,
+            'transition_id': this.state.newTransitionName,
+            'transition_name': this.props.jiraStatuses[this.state.newTransitionName],
             'transition_alias': this.state.newTransitionAlias,
             'garrett_action': this.state.newTransitionAction
         };
@@ -80,7 +81,7 @@ class Settings extends React.Component {
                 key={"jira-transition" + oid}
                 transitionId={oid}
                 transitionAlias={this.props.jiraTransitions[oid].transition_alias}
-                transitionName={this.props.jiraTransitions[oid].transition_name}
+                transitionJiraId={this.props.jiraTransitions[oid].transition_id}
                 garrettAction={this.props.jiraTransitions[oid].garrett_action}
             />)
         });
@@ -122,8 +123,8 @@ class Settings extends React.Component {
                                     id="newTransitionName"
                                     name="newTransitionName"
                                     onChange={this.handleChangeEvent}>
-                                    {this.props.jiraStatuses.map((value, i) => {
-                                        return <option key={i} value={value}>{value}</option>
+                                    {Object.keys(this.props.jiraStatuses).map((oid, index) => {
+                                        return <option key={oid} value={oid}>{this.props.jiraStatuses[oid]}</option>
                                     })}
                                 </Form.Select>
                             </Form>

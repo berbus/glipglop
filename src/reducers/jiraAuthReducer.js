@@ -12,7 +12,6 @@ const initialState = {
 export default function JiraAuthReducer (state = initialState, action) {
     switch (action.type) {
         case JIRA_AUTH_GET_STATUS:
-            console.log(action.payload.authenticated)
             return {
                 ...state,
                 authenticated: action.payload.authenticated,
