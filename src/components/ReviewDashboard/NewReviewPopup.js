@@ -105,11 +105,9 @@ class NewReviewPopup extends React.Component {
                                 onChange={this.handleChangeEvent}
                                 defaultValue=""
                             >
-                                <option value="" disabled>Select a Jira issue (optional)</option>
-                                {Object.keys(this.props.jiraIssues).map((oid, i) => {
-                                    return <option key={"jira-opt-" + oid} value={oid}>
-                                        {this.props.jiraIssues[oid].jira_id}
-                                    </option>
+                                <option key="wowthatsrandom" value="" disabled>Select a Jira issue (optional)</option>
+                                {Object.keys(this.props.jiraIssues).map((oid, index) => {
+                                    return <option key={oid} value={oid}>{this.props.jiraIssues[oid].key}</option>
                                 })}
                             </Form.Select>
                         </div>

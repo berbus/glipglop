@@ -19,7 +19,7 @@ class JiraTransition extends React.Component {
         this.state = {
             edit: false,
             newTransitionAlias: this.props.transitionAlias,
-            newTransitionName: this.props.transitionName,
+            newTransitionJiraId: this.props.transitionJiraId,
             newTransitionAction: this.props.garrettAction,
             updatingTransition: false
         }
@@ -28,6 +28,7 @@ class JiraTransition extends React.Component {
         this.clearChanges = this.clearChanges.bind(this);
         this.toggleEdit = this.toggleEdit.bind(this);
         this.deleteTransition = this.deleteTransition.bind(this);
+        this.handleChangeEvent = this.handleChangeEvent.bind(this);
     }
 
     componentDidUpdate(prevProps) {
@@ -41,7 +42,7 @@ class JiraTransition extends React.Component {
     saveChanges () {
         this.setState({updatingTransition: true});
         const data = {
-            'transition_name': this.state.newTransitionName,
+            'transition_id': this.state.newTransitionJiraId,
             'transition_alias': this.state.newTransitionAlias,
             'garrett_action': this.state.newTransitionAction
         };
@@ -53,7 +54,7 @@ class JiraTransition extends React.Component {
     clearChanges () {
         this.setState({
             'newTransitionAlias': this.props.transitionAlias,
-            'newTransitionName': this.props.transitionName,
+            'newTransitionJiraId': this.props.transitionJiraId,
             'newTransitionAction': this.props.garrettAction
         })
         this.toggleEdit();
@@ -67,6 +68,10 @@ class JiraTransition extends React.Component {
         this.props.deleteJiraTransition(this.props.transitionId);
     }
 
+    handleChangeEvent (event) {
+        this.setState({[event.target.name]: event.target.value});
+    }
+
     render () {
         return (
             <>
@@ -78,7 +83,8 @@ class JiraTransition extends React.Component {
                                 <Form.Select
                                     id="garrettAction"
                                     name="newTransitionAction"
-                                    value={this.state.garrettAction}>
+                                    onChange={this.handleChangeEvent}
+                                    defaultValue={this.state.garrettAction}>
                                     {this.props.garrettActions.map((value, i) => {
                                         return <option key={i} value={value}>{value}</option>
                                     })}
@@ -88,11 +94,12 @@ class JiraTransition extends React.Component {
                         <td>
                             <Form>
                                 <Form.Select
-                                    id="newTransitionName"
-                                    name="newTransitionName"
-                                    value={this.state.newTransitionName}>
-                                    {this.props.jiraStatuses.map((value, i) => {
-                                        return <option key={i} value={value}>{value}</option>
+                                    id="newTransitionJiraId"
+                                    name="newTransitionJiraId"
+                                    onChange={this.handleChangeEvent}
+                                    defaultValue={this.state.newTransitionJiraId}>
+                                    {Object.keys(this.props.jiraStatuses).map((oid, index) => {
+                                        return <option key={oid} value={oid}>{this.props.jiraStatuses[oid]}</option>
                                     })}
                                 </Form.Select>
                             </Form>
@@ -101,7 +108,7 @@ class JiraTransition extends React.Component {
                             <input
                                 type="text" 
                                 className="form-control"
-                                value={this.state.newTransitionAlias}
+                                defaultValue={this.state.newTransitionAlias}
                                 name="newTransitionAlias"
                             />
                         </td>
@@ -120,7 +127,7 @@ class JiraTransition extends React.Component {
                         </>
                         : <>
                             <td className="align-middle">{this.props.garrettAction}</td>
-                            <td className="align-middle">{this.props.transitionName}</td>
+                            <td className="align-middle">{this.props.jiraStatuses[this.props.transitionJiraId]}</td>
                             <td className="align-middle">{this.props.transitionAlias}</td>
                             <td>
                                 <button className="btn btn-primary mx-2" onClick={this.toggleEdit}>
