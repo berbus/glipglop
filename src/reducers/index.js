@@ -16,6 +16,7 @@ import SecurityTestReducer from './securityTestReducer';
 import SecurityTestDetailsReducer from './securityTestDetailsReducer';
 import ThreatModelReducer from './threatModelReducer';
 import ThreatModelDetailsReducer from './threatModelDetailsReducer';
+import TMParticipantReducer from './tmParticipantReducer';
 
 export default combineReducers({
     ServiceReducer,
@@ -34,5 +35,6 @@ export default combineReducers({
     SecurityTestReducer,
     SecurityTestDetailsReducer,
     ThreatModelReducer,
-    ThreatModelDetailsReducer
+    ThreatModelDetailsReducer,
+    TMParticipantReducer
 });

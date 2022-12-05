@@ -31,7 +31,7 @@ export class RichTextEditor extends React.Component {
     handleOnBlur (event, editor) {
         const data = editor.getData();
         this.setState({'editing': false, 'content': data});
-        this.props.saveHandler(data)
+        this.props.saveHandler(data, this.props.editorId)
     }
 
     render () {

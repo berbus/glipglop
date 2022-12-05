@@ -37,9 +37,6 @@ class SecurityTestDetails extends React.Component {
         this.props.clearSecurityTestDetails();
     }
 
-    async updateClipboard () {
-    }
-
     componentDidUpdate(prevProps) {
         if (!this.state.loaded && this.props.securityTestLoaded && this.props.findingsLoaded) {
             this.setState({'loaded': true})

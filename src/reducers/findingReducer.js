@@ -7,7 +7,7 @@ import {
 } from '../actions/types.js';
 
 const initialState = {
-    findings: {},
+    findings: [],
     loaded: false
 };
 
