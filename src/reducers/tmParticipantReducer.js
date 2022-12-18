@@ -14,9 +14,6 @@ const initialState = {
 
 
 export default function tmParticipantReducer (state = initialState, action) {
-    let newItem = {}
-    let oid = null
-
     switch (action.type) {
         case GET_TM_PARTICIPANTS:
             return {
@@ -27,23 +24,21 @@ export default function tmParticipantReducer (state = initialState, action) {
         case CLEAR_TM_PARTICIPANTS:
             return initialState;
         case CREATE_TM_PARTICIPANT:
-            oid = action.payload['oid']
-            delete action.payload['oid'] 
-            newItem[oid] = action.payload
-
             return {
                 ...state,
-                services: {...state.participants, ...newItem},
+                participants: state.participants.concat([action.payload]),
                 loaded: true
             };
         case UPDATE_TM_PARTICIPANT:
-            oid = action.payload['oid']
-            delete action.payload['oid'] 
-            newItem[oid] = action.payload
-
             return {
                 ...state,
-                testCases: {...state.participants, ...newItem},
+                participants: state.participants.map(pt => { 
+                    if (pt['oid'] !== action.payload['oid']) {
+                        return pt
+                    } else {
+                        return action.payload
+                    }
+                }),
                 loaded: true
             };
         case DELETE_TM_PARTICIPANT:

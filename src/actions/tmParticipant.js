@@ -58,7 +58,6 @@ export const createTMParticipant = (participantData) => (dispatch, getState) => 
         .catch((err) => {
             handleActionError(err, tid);
         });
-
 };
 
 

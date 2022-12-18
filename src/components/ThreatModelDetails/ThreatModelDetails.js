@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 import { getThreatModelDetails, clearThreatModelDetails, completeThreatModel } from '../../actions/threatModelDetails';
 import { Loading, DetailsHeader, ItemBadges } from '../Common';
-import TMParticipants from './TMParticipants';
+import TMParticipantList from './TMParticipantList';
 import TMChangesSummary from './TMChangesSummary';
 import TMDiagrams from './TMDiagrams';
 import TMChecklist from './TMChecklist';
@@ -90,8 +90,8 @@ class ThreatModelDetails extends React.Component {
                                 </div>
                             </div>
                         </DetailsHeader>
-                        <TMParticipants threatModelId={this.props.threatModelId}></TMParticipants>
-                        <TMChangesSummary></TMChangesSummary>
+                        <TMParticipantList threatModelId={this.props.threatModelId}/>
+                        <TMChangesSummary />
                         <TMDiagrams></TMDiagrams>
                         <TMChecklist></TMChecklist>
                     </>
