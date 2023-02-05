@@ -6,10 +6,12 @@ import { HTTP_CONF } from '../constants';
 import { handleActionError } from '../utils';
 import { 
     GET_TM_PARTICIPANTS,
-    CREATE_TM_PARTICIPANT,
+    CREATING_TM_PARTICIPANT,
+    CREATED_TM_PARTICIPANT,
     DELETE_TM_PARTICIPANT,
     CLEAR_TM_PARTICIPANTS,
-    UPDATE_TM_PARTICIPANT
+    UPDATE_TM_PARTICIPANT,
+    TM_PARTICIPANTS_ERROR
 } from './types';
 
 
@@ -46,19 +48,21 @@ export const getTMParticipantsForTM = (threatModelId) => (dispatch, getState) =>
 export const createTMParticipant = (participantData) => (dispatch, getState) => {
     const tid = toast.loading('Loading...')
 
+    dispatch({type: CREATING_TM_PARTICIPANT});
+
     axios
         .post('/api/tm_participant/', participantData, HTTP_CONF)
         .then((res) => {
             dispatch({
-                type: CREATE_TM_PARTICIPANT,
+                type: CREATED_TM_PARTICIPANT,
                 payload: res.data
             });
-            toast.success('Created tm participant', {id: tid});
+            toast.success('Created TM participant', {id: tid});
         })
         .catch((err) => {
             handleActionError(err, tid);
+            dispatch({TM_PARTICIPANTS_ERROR});
         });
-
 };
 
 

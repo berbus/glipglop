@@ -21,9 +21,9 @@ class Settings extends React.Component {
         super(props)
 
         this.state = {
-            newTransitionAlias: "",
-            newTransitionName: "",
-            newTransitionAction: "",
+            newTransitionAlias: '',
+            newTransitionName: '',
+            newTransitionAction: '',
             creatingTransition: false
         }
 
@@ -49,10 +49,10 @@ class Settings extends React.Component {
         }
 
         if (!this.props.creatingTransition && this.state.creatingTransition) {
-                if (this.props.creatingTransitionSuccess) {
-                    this.setState({newTransitionAlias: "", newTransitionName: "", newTransitionAction: ""});
-                }
-                this.setState({creatingTransition: false});
+            if (this.props.creatingTransitionSuccess) {
+                this.setState({newTransitionAlias: "", newTransitionName: "", newTransitionAction: ""});
+            }
+            this.setState({creatingTransition: false});
         }
     }
 
@@ -88,68 +88,68 @@ class Settings extends React.Component {
 
         return (
             <>
-            <h1>Settings</h1>
-            <h2>Jira transitions</h2>
-            {!this.props.jiraTransitionsLoaded || !this.props.jiraStatusesLoaded || this.state.creatingTransition
-                ? <Loading />
-                : <>
-                <table className="table table-sm">
-                    <thead>
-                    <tr>
-                        <th scope="col">Garrett action</th>
-                        <th scope="col">New Jira State</th>
-                        <th scope="col">Transition alias</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        {jiraTransitions}
-                        <tr>
-                        <td>
-                            <Form>
-                                <Form.Select
-                                    id="garrettAction"
-                                    name="newTransitionAction"
-                                    onChange={this.handleChangeEvent}>
-                                    {this.props.garrettActions.map((value, i) => {
-                                        return <option key={i} value={value}>{value}</option>
-                                    })}
-                                </Form.Select>
-                            </Form>
-                        </td>
-                        <td>
-                            <Form>
-                                <Form.Select
-                                    id="newTransitionName"
-                                    name="newTransitionName"
-                                    onChange={this.handleChangeEvent}>
-                                    {Object.keys(this.props.jiraStatuses).map((oid, index) => {
-                                        return <option key={oid} value={oid}>{this.props.jiraStatuses[oid]}</option>
-                                    })}
-                                </Form.Select>
-                            </Form>
-                        </td>
-                        <td>
-                            <input
-                                type="text" 
-                                className="form-control"
-                                value={this.state.newTransitionAlias}
-                                name="newTransitionAlias"
-                                onChange={this.handleChangeEvent}
-                            />
-                        </td>
-                            <td>
-                                <button className="btn btn-primary mx-2" onClick={this.addTransition}>
-                                    <IconContext.Provider value={{ size: "1.5em" }}>
-                                        <AiOutlinePlus />
-                                    </IconContext.Provider>
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </>
-            }
+                <h1>Settings</h1>
+                <h2>Jira transitions</h2>
+                {!this.props.jiraTransitionsLoaded || !this.props.jiraStatusesLoaded || this.state.creatingTransition
+                    ? <Loading />
+                    : <>
+                        <table className="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Garrett action</th>
+                                    <th scope="col">New Jira State</th>
+                                    <th scope="col">Transition alias</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {jiraTransitions}
+                                <tr>
+                                    <td>
+                                        <Form>
+                                            <Form.Select
+                                                id="garrettAction"
+                                                name="newTransitionAction"
+                                                onChange={this.handleChangeEvent}>
+                                                {this.props.garrettActions.map((value, i) => {
+                                                    return <option key={i} value={value}>{value}</option>
+                                                })}
+                                            </Form.Select>
+                                        </Form>
+                                    </td>
+                                    <td>
+                                        <Form>
+                                            <Form.Select
+                                                id="newTransitionName"
+                                                name="newTransitionName"
+                                                onChange={this.handleChangeEvent}>
+                                                {Object.keys(this.props.jiraStatuses).map((oid, index) => {
+                                                    return <option key={oid} value={oid}>{this.props.jiraStatuses[oid]}</option>
+                                                })}
+                                            </Form.Select>
+                                        </Form>
+                                    </td>
+                                    <td>
+                                        <input
+                                            type="text" 
+                                            className="form-control"
+                                            value={this.state.newTransitionAlias}
+                                            name="newTransitionAlias"
+                                            onChange={this.handleChangeEvent}
+                                        />
+                                    </td>
+                                    <td>
+                                        <button className="btn btn-primary mx-2" onClick={this.addTransition}>
+                                            <IconContext.Provider value={{ size: "1.5em" }}>
+                                                <AiOutlinePlus />
+                                            </IconContext.Provider>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </>
+                }
                 <h2>Jira authentication config</h2>
                 <JiraConfig />
             </>

@@ -1,14 +1,17 @@
 import { 
     GET_TM_PARTICIPANTS,
     CLEAR_TM_PARTICIPANTS,
-    CREATE_TM_PARTICIPANT,
+    CREATING_TM_PARTICIPANT,
+    CREATED_TM_PARTICIPANT,
     DELETE_TM_PARTICIPANT,
-    UPDATE_TM_PARTICIPANT
+    UPDATE_TM_PARTICIPANT,
+    TM_PARTICIPANTS_ERROR
 } from '../actions/types.js';
 
 
 const initialState = {
     participants: [],
+    participantCreationSuccess: null,
     loaded: false
 };
 
@@ -26,14 +29,23 @@ export default function tmParticipantReducer (state = initialState, action) {
             };
         case CLEAR_TM_PARTICIPANTS:
             return initialState;
-        case CREATE_TM_PARTICIPANT:
-            oid = action.payload['oid']
-            delete action.payload['oid'] 
-            newItem[oid] = action.payload
-
+        case CREATING_TM_PARTICIPANT:
             return {
                 ...state,
-                services: {...state.participants, ...newItem},
+                participantCreationSuccess: null,
+                loaded: false
+            }
+        case TM_PARTICIPANTS_ERROR:
+            return {
+                ...state,
+                participantCreationSuccess: false,
+                loaded: false
+            }
+        case CREATED_TM_PARTICIPANT:
+            return {
+                ...state,
+                participants: [...state.participants, action.payload],
+                participantCreationSuccess: true,
                 loaded: true
             };
         case UPDATE_TM_PARTICIPANT:
@@ -49,11 +61,7 @@ export default function tmParticipantReducer (state = initialState, action) {
         case DELETE_TM_PARTICIPANT:
             return {
                 ...state,
-                services: Object.keys(state.services)
-                .filter((key) => key !== action.payload.serviceId)
-                .reduce((cur, key) => { 
-                    return Object.assign(cur, { [key]: state.services[key] })
-                }, {})
+                participants: state.participants.filter(p => p['oid'] !== action.payload.participantId)
             };
         default:
             return state;
