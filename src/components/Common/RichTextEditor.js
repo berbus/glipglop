@@ -2,6 +2,7 @@ import React from 'react';
 
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { sanitize } from "isomorphic-dompurify";
 
 
 export class RichTextEditor extends React.Component {
@@ -57,8 +58,8 @@ export class RichTextEditor extends React.Component {
                                 </div>
                                 : <div 
                                     onClick={this.enableEditor} 
-                                    dangerouslySetInnerHTML={{__html: this.state.content}} 
-                                    className="bg-white p-2">
+                                    className="bg-white p-2"
+                                    dangerouslySetInnerHTML={{__html: sanitize(this.state.content)}}>
                                 </div>
                             }
                         </>

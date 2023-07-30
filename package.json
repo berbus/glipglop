@@ -15,6 +15,7 @@
 		"cors": "^2.8.5",
 		"draft-js": "^0.11.7",
 		"env-cmd": "^10.1.0",
+		"isomorphic-dompurify": "^1.8.0",
 		"js-cookie": "^3.0.1",
 		"react": "^17.0.2",
 		"react-bootstrap": "^2.1.1",
